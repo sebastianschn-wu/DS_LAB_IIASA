@@ -4,7 +4,10 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
-DEFAULT_SHEET = REPO_ROOT / "src" / "resources" / "CDR_policy_sheet.xlsx"
+RAW_SHEET = REPO_ROOT / "src" / "resources" / "CDR_policy_sheet.xlsx"
+# Output of src/scripts/data-cleaning; used automatically when it exists.
+CLEAN_SHEET = REPO_ROOT / "data" / "processed" / "CDR_policy_sheet_clean.xlsx"
+DEFAULT_SHEET = CLEAN_SHEET if CLEAN_SHEET.exists() else RAW_SHEET
 DEFAULT_CODEBOOK = REPO_ROOT / "src" / "resources" / "codebook_guidelines.docx"
 DEFAULT_OUTPUT = REPO_ROOT / "results" / "first_loop_coding.csv"
 SOURCE_CACHE_DIRNAME = "source_cache"
@@ -153,6 +156,8 @@ HTTP_ACCEPT = "text/html,application/pdf,*/*;q=0.8"
 CSV_ENCODING = "utf-8-sig"
 TEXT_ENCODING = "utf-8"
 HTML_PARSER = "html.parser"
+# Page elements removed before HTML text extraction (navigation, scripts, forms).
+HTML_DROP_TAGS = ["script", "style", "noscript", "svg", "form", "nav", "header", "footer", "aside"]
 PDF_EXTENSION = ".pdf"
 PDF_MAGIC = b"%PDF"
 
@@ -194,6 +199,7 @@ MISSING_LINK_ERROR = "missing link"
 ENCRYPTED_PDF_ERROR = "encrypted PDF"
 JSON_OBJECT_ERROR = "model response JSON was not an object"
 OLLAMA_MISSING_MESSAGE = "Ollama is not on PATH. Install it from https://ollama.com and retry."
+SUMMARY_FALLBACK_DISABLED = "summary_fallback_disabled"
 
 INSTRUCTION_RULES = [
     "You code one public policy into the Carbon Dioxide Removal (CDR) Policy Database.",
