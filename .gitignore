@@ -1,0 +1,7 @@
+# Generated benchmark data (project material, do not commit)
+data/processed/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
