@@ -1,0 +1,10 @@
+# Python packages for all scripts in this repository
+openpyxl
+pandas
+requests
+beautifulsoup4
+pypdf
+
+# tests
+pytest
+reportlab
