@@ -1,0 +1,769 @@
+@prefix beam: <http://w3id.org/beam/core#> .
+@prefix beamr: <http://w3id.org/beam/risk#> .
+@prefix pair: <http://w3id.org/airiskkg/pair-ai#> .
+@prefix pat: <http://w3id.org/airiskkg/patterns#> .
+@prefix atlas: <http://w3id.org/airiskkg/taxonomy/ibm-risk-atlas#> .
+@prefix mit: <http://w3id.org/airiskkg/taxonomy/mit-ai-risk#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix cdr: <http://tool4boxology.org/CDR/> .
+
+# ============================================================
+# SYSTEM
+# ============================================================
+
+cdr:policy-llm-workflow
+    a beam:Element, beam:System ;
+    rdfs:label "CDR Policy LLM Coding and Application Workflow" ;
+    beam:context "Research workflow for classifying carbon dioxide removal (CDR) policies using an open-weight large language model, with expert-coded benchmark data, legally compliant collection of legislative texts, model evaluation, iterative refinement, and expert validation." ;
+    beam:description "The workflow prepares expert-coded data, develops and benchmarks an LLM-based policy coding approach, collects additional legal texts from approved sources, generates candidate database entries for uncovered countries, and refines the coding approach through expert feedback." ;
+    beam:hasProcess
+        cdr:dataset-cleaning,
+        cdr:country-aggregation,
+        cdr:gold-standard-preparation,
+        cdr:instruction-design,
+        cdr:local-model-inference,
+        cdr:document-length-check,
+        cdr:summary-fallback,
+        cdr:full-document-processing,
+        cdr:json-generation,
+        cdr:initial-benchmarking,
+        cdr:categorical-evaluation,
+        cdr:textual-evaluation,
+        cdr:qualitative-error-analysis,
+        cdr:prompt-and-few-shot-improvement,
+        cdr:lora-fine-tuning,
+        cdr:model-comparison,
+        cdr:feedback-analysis,
+        cdr:model-selection,
+        cdr:terms-of-use-review,
+        cdr:legal-text-scraping,
+        cdr:legal-text-collection,
+        cdr:application-inference,
+        cdr:candidate-generation,
+        cdr:expert-validation,
+        cdr:model-calibration,
+        cdr:approach-update,
+        cdr:improved-model-inference,
+        cdr:final-candidate-generation,
+        cdr:database-review-preparation ;
+    beam:hasResource
+        cdr:expert-coded-dataset,
+        cdr:cleaned-dataset,
+        cdr:country-level-dataset,
+        cdr:codebook,
+        cdr:llm-instructions,
+        cdr:open-weight-llm,
+        cdr:policy-document,
+        cdr:policy-summary,
+        cdr:structured-json-output,
+        cdr:gold-standard,
+        cdr:categorical-metrics,
+        cdr:textual-metrics,
+        cdr:error-analysis-results,
+        cdr:prompt-template,
+        cdr:few-shot-examples,
+        cdr:fine-tuned-model,
+        cdr:model-comparison-results,
+        cdr:expert-feedback,
+        cdr:approved-source-list,
+        cdr:legal-texts,
+        cdr:climate-change-laws-database,
+        cdr:iea-policies-database,
+        cdr:scraper,
+        cdr:collected-legal-texts,
+        cdr:candidate-entries,
+        cdr:validated-candidates,
+        cdr:calibrated-coding-rules,
+        cdr:final-candidate-entries,
+        cdr:database-review-queue .
+
+# ============================================================
+# RESOURCES: DATASETS, MODELS, DOCUMENTS AND TOOLS
+# ============================================================
+
+cdr:expert-coded-dataset
+    a beam:Data ;
+    rdfs:label "Expert-Coded Dataset" ;
+    pair:playsRole pair:KnowledgeSource ;
+    beam:usedBy cdr:dataset-cleaning .
+
+cdr:cleaned-dataset
+    a beam:Data ;
+    rdfs:label "Cleaned Expert-Coded Dataset" ;
+    beam:producedBy cdr:dataset-cleaning ;
+    beam:usedBy cdr:country-aggregation .
+
+cdr:country-level-dataset
+    a beam:Data ;
+    rdfs:label "Country-Level Dataset" ;
+    beam:producedBy cdr:country-aggregation ;
+    beam:usedBy cdr:gold-standard-preparation .
+
+cdr:codebook
+    a beam:Data ;
+    rdfs:label "CDR Policy Coding Codebook" ;
+    pair:playsRole pair:KnowledgeSource ;
+    beam:usedBy cdr:instruction-design,
+        cdr:model-calibration .
+
+cdr:llm-instructions
+    a beam:Symbol ;
+    rdfs:label "Structured LLM Coding Instructions" ;
+    pair:playsRole pair:PromptTemplate ;
+    beam:producedBy cdr:instruction-design ;
+    beam:usedBy cdr:local-model-inference .
+
+cdr:open-weight-llm
+    a beam:StatisticalModel ;
+    rdfs:label "Locally Deployed Open-Weight LLM" ;
+    pair:playsRole pair:FoundationLLM,
+        pair:GenerativeModel ;
+    beam:usedBy cdr:local-model-inference,
+        cdr:lora-fine-tuning,
+        cdr:application-inference .
+
+cdr:fine-tuned-model
+    a beam:StatisticalModel ;
+    rdfs:label "LoRA Fine-Tuned Model" ;
+    pair:playsRole pair:GenerativeModel ;
+    beam:producedBy cdr:lora-fine-tuning ;
+    beam:usedBy cdr:model-comparison .
+
+cdr:policy-document
+    a beam:Data ;
+    rdfs:label "Full Policy Document" ;
+    pair:playsRole pair:KnowledgeSource ;
+    beam:usedBy cdr:document-length-check,
+        cdr:full-document-processing .
+
+cdr:policy-summary
+    a beam:Data ;
+    rdfs:label "Policy Summary Fallback" ;
+    pair:playsRole pair:KnowledgeSource ;
+    beam:usedBy cdr:summary-fallback .
+
+cdr:structured-json-output
+    a beam:Data ;
+    rdfs:label "Structured JSON Coding Output" ;
+    beam:producedBy cdr:json-generation ;
+    beam:usedBy cdr:initial-benchmarking,
+        cdr:categorical-evaluation,
+        cdr:textual-evaluation,
+        cdr:qualitative-error-analysis .
+
+cdr:gold-standard
+    a beam:Data ;
+    rdfs:label "Expert-Coded Gold-Standard Benchmark" ;
+    pair:playsRole pair:KnowledgeSource ;
+    beam:producedBy cdr:gold-standard-preparation ;
+    beam:usedBy cdr:initial-benchmarking,
+        cdr:categorical-evaluation,
+        cdr:textual-evaluation .
+
+cdr:categorical-metrics
+    a beam:Data ;
+    rdfs:label "Categorical Evaluation Metrics: Accuracy, Precision, Recall and F1" ;
+    beam:producedBy cdr:categorical-evaluation ;
+    beam:usedBy cdr:qualitative-error-analysis .
+
+cdr:textual-metrics
+    a beam:Data ;
+    rdfs:label "Free-Text Evaluation Metrics: ROUGE, BLEU and BERTScore" ;
+    beam:producedBy cdr:textual-evaluation ;
+    beam:usedBy cdr:qualitative-error-analysis .
+
+cdr:error-analysis-results
+    a beam:Data ;
+    rdfs:label "Qualitative Error Analysis Results" ;
+    beam:producedBy cdr:qualitative-error-analysis ;
+    beam:usedBy cdr:prompt-and-few-shot-improvement,
+        cdr:feedback-analysis .
+
+cdr:prompt-template
+    a beam:Symbol ;
+    rdfs:label "Improved Prompt Template" ;
+    pair:playsRole pair:PromptTemplate ;
+    beam:producedBy cdr:prompt-and-few-shot-improvement ;
+    beam:usedBy cdr:local-model-inference,
+        cdr:model-comparison .
+
+cdr:few-shot-examples
+    a beam:Data ;
+    rdfs:label "Few-Shot Coding Examples" ;
+    beam:producedBy cdr:prompt-and-few-shot-improvement ;
+    beam:usedBy cdr:local-model-inference,
+        cdr:model-comparison .
+
+cdr:model-comparison-results
+    a beam:Data ;
+    rdfs:label "Zero-Shot, Few-Shot and Fine-Tuned Model Comparison" ;
+    beam:producedBy cdr:model-comparison ;
+    beam:usedBy cdr:feedback-analysis,
+        cdr:model-selection .
+
+cdr:expert-feedback
+    a beam:Data ;
+    rdfs:label "Expert and Coach Feedback" ;
+    beam:usedBy cdr:feedback-analysis,
+        cdr:model-calibration .
+
+cdr:approved-source-list
+    a beam:Data ;
+    rdfs:label "Approved Legal Text Sources and Terms of Use" ;
+    pair:playsRole pair:KnowledgeSource ;
+    beam:producedBy cdr:terms-of-use-review ;
+    beam:usedBy cdr:legal-text-scraping,
+        cdr:legal-text-collection .
+
+cdr:climate-change-laws-database
+    a beam:Data ;
+    rdfs:label "Climate Change Laws of the World" ;
+    pair:playsRole pair:KnowledgeSource ;
+    beam:usedBy cdr:terms-of-use-review,
+        cdr:legal-text-collection .
+
+cdr:iea-policies-database
+    a beam:Data ;
+    rdfs:label "IEA Policies and Measures Database" ;
+    pair:playsRole pair:KnowledgeSource ;
+    beam:usedBy cdr:terms-of-use-review,
+        cdr:legal-text-collection .
+
+cdr:scraper
+    a beam:Process ;
+    rdfs:label "Compliant Legal Text Scraper" ;
+    beam:usedBy cdr:legal-text-collection .
+
+cdr:legal-texts
+    a beam:Data ;
+    rdfs:label "Relevant Legislative Texts" ;
+    pair:playsRole pair:KnowledgeSource ;
+    beam:usedBy cdr:legal-text-scraping .
+
+cdr:collected-legal-texts
+    a beam:Data ;
+    rdfs:label "Collected Official Law Gazettes and Legal Acts" ;
+    beam:producedBy cdr:legal-text-collection ;
+    beam:usedBy cdr:application-inference .
+
+cdr:candidate-entries
+    a beam:Data ;
+    rdfs:label "Candidate Entries for Previously Uncovered Countries" ;
+    beam:producedBy cdr:candidate-generation ;
+    beam:usedBy cdr:expert-validation .
+
+cdr:validated-candidates
+    a beam:Data ;
+    rdfs:label "Expert-Validated and Corrected Candidate Entries" ;
+    beam:producedBy cdr:expert-validation ;
+    beam:usedBy cdr:model-calibration,
+        cdr:final-candidate-generation .
+
+cdr:calibrated-coding-rules
+    a beam:Data ;
+    rdfs:label "Calibrated Coding Rules and Model Configuration" ;
+    beam:producedBy cdr:model-calibration,
+        cdr:approach-update ;
+    beam:usedBy cdr:improved-model-inference .
+
+cdr:final-candidate-entries
+    a beam:Data ;
+    rdfs:label "Final Candidate Entries" ;
+    beam:producedBy cdr:final-candidate-generation ;
+    beam:usedBy cdr:database-review-preparation .
+
+cdr:database-review-queue
+    a beam:Data ;
+    rdfs:label "Candidate Entries Ready for Database Review" ;
+    pair:playsRole pair:UserFacingOutput ;
+    beam:producedBy cdr:database-review-preparation .
+
+# ============================================================
+# PROCESS DEFINITIONS
+# ============================================================
+
+cdr:dataset-cleaning
+    a beam:Transform, beam:Process ;
+    rdfs:label "Clean Expert-Coded Dataset" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:cleaned-dataset ;
+    beam:use cdr:expert-coded-dataset .
+
+cdr:country-aggregation
+    a beam:Transform, beam:Process ;
+    rdfs:label "Aggregate Dataset by Country" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:country-level-dataset ;
+    beam:use cdr:cleaned-dataset .
+
+cdr:gold-standard-preparation
+    a beam:Transform, beam:Process ;
+    rdfs:label "Establish Expert-Coded Gold Standard" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:gold-standard ;
+    beam:use cdr:country-level-dataset .
+
+cdr:instruction-design
+    a beam:Transform, beam:Process ;
+    rdfs:label "Translate Codebook into Structured LLM Instructions" ;
+    pair:playsRole pair:PromptConstructionStep ;
+    beam:produce cdr:llm-instructions ;
+    beam:use cdr:codebook .
+
+cdr:local-model-inference
+    a beam:Generate, beam:Infer ;
+    rdfs:label "Apply Open-Weight Model Locally" ;
+    pair:playsRole pair:GenerationStep ;
+    beam:produce cdr:structured-json-output ;
+    beam:use cdr:open-weight-llm,
+        cdr:llm-instructions,
+        cdr:prompt-template,
+        cdr:few-shot-examples .
+
+cdr:document-length-check
+    a beam:Infer, beam:Process ;
+    rdfs:label "Check Document Token Threshold" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:use cdr:policy-document .
+
+cdr:summary-fallback
+    a beam:Transform, beam:Process ;
+    rdfs:label "Use Policy Summary Fallback" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:structured-json-output ;
+    beam:use cdr:policy-summary,
+        cdr:llm-instructions,
+        cdr:open-weight-llm .
+
+cdr:full-document-processing
+    a beam:Transform, beam:Process ;
+    rdfs:label "Process Full Policy Document" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:structured-json-output ;
+    beam:use cdr:policy-document,
+        cdr:llm-instructions,
+        cdr:open-weight-llm .
+
+cdr:json-generation
+    a beam:Transform, beam:Process ;
+    rdfs:label "Produce Structured JSON Output" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:structured-json-output ;
+    beam:use cdr:policy-document,
+        cdr:llm-instructions,
+        cdr:open-weight-llm .
+
+cdr:initial-benchmarking
+    a beam:Transform, beam:Process ;
+    rdfs:label "Benchmark Initial Coding Against Gold Standard" ;
+    pair:playsRole pair:EvaluationStep ;
+    beam:use cdr:structured-json-output,
+        cdr:gold-standard .
+
+cdr:categorical-evaluation
+    a beam:Transform, beam:Process ;
+    rdfs:label "Evaluate Categorical Metrics" ;
+    pair:playsRole pair:EvaluationStep ;
+    beam:produce cdr:categorical-metrics ;
+    beam:use cdr:structured-json-output,
+        cdr:gold-standard .
+
+cdr:textual-evaluation
+    a beam:Transform, beam:Process ;
+    rdfs:label "Evaluate Free-Text Metrics" ;
+    pair:playsRole pair:EvaluationStep ;
+    beam:produce cdr:textual-metrics ;
+    beam:use cdr:structured-json-output,
+        cdr:gold-standard .
+
+cdr:qualitative-error-analysis
+    a beam:Transform, beam:Process ;
+    rdfs:label "Perform Qualitative Error Analysis" ;
+    pair:playsRole pair:EvaluationStep ;
+    beam:produce cdr:error-analysis-results ;
+    beam:use cdr:structured-json-output,
+        cdr:gold-standard,
+        cdr:categorical-metrics,
+        cdr:textual-metrics .
+
+cdr:prompt-and-few-shot-improvement
+    a beam:Transform, beam:Process ;
+    rdfs:label "Improve Through Prompt Engineering and Few-Shot Examples" ;
+    pair:playsRole pair:PromptConstructionStep,
+        pair:ProcessingStep ;
+    beam:produce cdr:prompt-template,
+        cdr:few-shot-examples ;
+    beam:use cdr:error-analysis-results,
+        cdr:codebook .
+
+cdr:lora-fine-tuning
+    a beam:Transform, beam:Process ;
+    rdfs:label "Fine-Tune Open-Weight Model with LoRA" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:fine-tuned-model ;
+    beam:use cdr:open-weight-llm,
+        cdr:gold-standard .
+
+cdr:model-comparison
+    a beam:Transform, beam:Process ;
+    rdfs:label "Compare Zero-Shot, Few-Shot and Fine-Tuned Variants" ;
+    pair:playsRole pair:EvaluationStep ;
+    beam:produce cdr:model-comparison-results ;
+    beam:use cdr:open-weight-llm,
+        cdr:fine-tuned-model,
+        cdr:prompt-template,
+        cdr:few-shot-examples,
+        cdr:gold-standard .
+
+cdr:feedback-analysis
+    a beam:Transform, beam:Process ;
+    rdfs:label "Analyze Errors and Incorporate Coach Feedback" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:use cdr:error-analysis-results,
+        cdr:model-comparison-results,
+        cdr:expert-feedback .
+
+cdr:model-selection
+    a beam:Infer, beam:Process ;
+    rdfs:label "Select Best-Performing Model" ;
+    pair:playsRole pair:DecisionStep ;
+    beam:use cdr:model-comparison-results,
+        cdr:expert-feedback .
+
+cdr:terms-of-use-review
+    a beam:Infer, beam:Process ;
+    rdfs:label "Review Legal Source Terms of Use" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:approved-source-list ;
+    beam:use cdr:climate-change-laws-database,
+        cdr:iea-policies-database .
+
+cdr:legal-text-scraping
+    a beam:Transform, beam:Process ;
+    rdfs:label "Build Compliant Scraper for Relevant Legislative Texts" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:use cdr:approved-source-list,
+        cdr:legal-texts,
+        cdr:scraper .
+
+cdr:legal-text-collection
+    a beam:Transform, beam:Process ;
+    rdfs:label "Collect Official Law Gazettes and Legal Acts" ;
+    pair:playsRole pair:RetrievalStep ;
+    beam:produce cdr:collected-legal-texts ;
+    beam:use cdr:approved-source-list,
+        cdr:climate-change-laws-database,
+        cdr:iea-policies-database,
+        cdr:scraper .
+
+cdr:application-inference
+    a beam:Generate, beam:Infer ;
+    rdfs:label "Run Best-Performing Model on Newly Collected Texts" ;
+    pair:playsRole pair:GenerationStep ;
+    beam:produce cdr:candidate-entries ;
+    beam:use cdr:collected-legal-texts,
+        cdr:open-weight-llm,
+        cdr:llm-instructions .
+
+cdr:candidate-generation
+    a beam:Transform, beam:Process ;
+    rdfs:label "Produce Candidate Entries for Uncovered Countries" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:candidate-entries ;
+    beam:use cdr:collected-legal-texts,
+        cdr:open-weight-llm .
+
+cdr:expert-validation
+    a beam:Transform, beam:Process ;
+    rdfs:label "Validate and Correct Candidate Entries" ;
+    pair:playsRole pair:HumanReviewStep,
+        pair:ProcessingStep ;
+    beam:produce cdr:validated-candidates ;
+    beam:use cdr:candidate-entries,
+        cdr:expert-feedback,
+        cdr:codebook .
+
+cdr:model-calibration
+    a beam:Transform, beam:Process ;
+    rdfs:label "Calibrate Coding Rules and Model from Feedback" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:calibrated-coding-rules ;
+    beam:use cdr:validated-candidates,
+        cdr:expert-feedback,
+        cdr:codebook .
+
+cdr:approach-update
+    a beam:Transform, beam:Process ;
+    rdfs:label "Update Improved Coding Approach" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:calibrated-coding-rules ;
+    beam:use cdr:calibrated-coding-rules,
+        cdr:expert-feedback .
+
+cdr:improved-model-inference
+    a beam:Generate, beam:Infer ;
+    rdfs:label "Run Improved Model Again" ;
+    pair:playsRole pair:GenerationStep ;
+    beam:produce cdr:final-candidate-entries ;
+    beam:use cdr:open-weight-llm,
+        cdr:calibrated-coding-rules,
+        cdr:collected-legal-texts .
+
+cdr:final-candidate-generation
+    a beam:Transform, beam:Process ;
+    rdfs:label "Produce Final Candidate Entries" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:final-candidate-entries ;
+    beam:use cdr:validated-candidates,
+        cdr:calibrated-coding-rules .
+
+cdr:database-review-preparation
+    a beam:Transform, beam:Process ;
+    rdfs:label "Prepare Candidate Entries for Database Review" ;
+    pair:playsRole pair:ProcessingStep ;
+    beam:produce cdr:database-review-queue ;
+    beam:use cdr:final-candidate-entries .
+
+# ============================================================
+# RISKS
+# Linked to the MIT AI Risk Repository and IBM AI Risk Atlas
+# entries published in the PAIR-AI knowledge graph:
+# https://semsys-staging.ai.wu.ac.at/airiskkg/
+# Taxonomy sources:
+# https://airisk.mit.edu/risks
+# https://www.ibm.com/docs/en/watsonx/saas?topic=ai-risk-atlas
+# ============================================================
+
+cdr:risk-misleading-policy-codes
+    a beamr:Risk ;
+    rdfs:label "Misleading CDR policy codes"@en ;
+    rdfs:comment "The model fills structured policy fields from a full statute or, past the token threshold, from a summary. Plausible JSON can assert instruments, targets, or CDR methods that the source does not support, and text-overlap metrics do not catch that."@en ;
+    pair:concernsRiskPattern pat:MisinformationFromWeakGroundingRiskPattern ;
+    pair:concernsTaxonomyEntry atlas:hallucination,
+        atlas:incomplete-advice,
+        mit:subdomain-3-1,
+        mit:subdomain-7-3 .
+
+cdr:risk-out-of-domain-countries
+    a beamr:Risk ;
+    rdfs:label "Weak accuracy on uncovered countries"@en ;
+    rdfs:comment "The benchmark and gold standard cover the countries already coded by experts. Newly collected statutes from uncovered jurisdictions can differ in language, legal form, and CDR policy design, and no step checks that a text is inside the domain the model was evaluated on. Categorical and ROUGE, BLEU, or BERTScore results on the original benchmark do not establish that performance."@en ;
+    pair:concernsRiskPattern pat:OutOfDomainInputRiskPattern ;
+    pair:concernsTaxonomyEntry atlas:poor-model-accuracy,
+        atlas:unrepresentative-data,
+        mit:subdomain-7-3 .
+
+cdr:risk-evaluation-contamination
+    a beamr:Risk ;
+    rdfs:label "Contaminated benchmark"@en ;
+    rdfs:comment "The expert gold standard is the evaluation set and also the LoRA training set. Few-shot examples are drawn from the same error analysis against that standard and then used in the comparison that scores the model. Overlapping examples overstate how the selected model will code unseen statutes."@en ;
+    pair:concernsRiskPattern pat:EvaluationDataContaminationRiskPattern ;
+    pair:concernsTaxonomyEntry atlas:data-contamination,
+        mit:subdomain-7-3 .
+
+cdr:risk-feedback-retraining
+    a beamr:Risk ;
+    rdfs:label "Corrected model output reused for calibration"@en ;
+    rdfs:comment "Expert-corrected candidate entries and coach feedback are fed back into coding rules and the next inference run. Incomplete corrections can teach the later configuration the model's earlier mistakes."@en ;
+    pair:concernsRiskPattern pat:ImproperRetrainingRiskPattern ;
+    pair:concernsTaxonomyEntry atlas:improper-retraining,
+        mit:subdomain-7-3 .
+
+cdr:risk-uneven-country-coding
+    a beamr:Risk ;
+    rdfs:label "Uneven coding across countries"@en ;
+    rdfs:comment "The expert-coded set, codebook, and few-shot examples can over-represent some countries, languages, and legal traditions. Cleaning, country aggregation, and LoRA then carry that skew into codes for jurisdictions that were scarce in the benchmark, so accuracy on the pooled set can hide worse coding for those countries."@en ;
+    pair:concernsRiskPattern pat:ModelBiasRiskPattern ;
+    pair:concernsTaxonomyEntry atlas:data-bias,
+        atlas:decision-bias,
+        atlas:data-curation,
+        mit:subdomain-1-1,
+        mit:subdomain-1-3 .
+
+cdr:risk-overreliance-on-candidates
+    a beamr:Risk ;
+    rdfs:label "Over-reliance on candidate codes during review"@en ;
+    rdfs:comment "Expert validation and database review see fluent structured entries. A reviewer who does not return to the statute can confirm the model's account of a policy, and model selection can treat a higher benchmark score as sufficient reason to accept that account."@en ;
+    pair:concernsRiskPattern pat:HumanAgentTrustExploitationRiskPattern ;
+    pair:concernsTaxonomyEntry atlas:over-or-under-reliance,
+        mit:subdomain-5-1 .
+
+cdr:risk-document-prompt-injection
+    a beamr:Risk ;
+    rdfs:label "Source text overriding the coding instructions"@en ;
+    rdfs:comment "Full policy documents, summaries, and scraped legislative texts are placed in the prompt with no screening step. Content in those sources can conflict with the codebook instructions and steer field values or elicit material from the prompt."@en ;
+    pair:concernsRiskPattern pat:PromptInjectionRiskPattern ;
+    pair:concernsTaxonomyEntry atlas:prompt-injection,
+        atlas:prompt-priming,
+        mit:subdomain-2-2 .
+
+cdr:risk-research-material-in-context
+    a beamr:Risk ;
+    rdfs:label "Unpublished expert material in the model context"@en ;
+    rdfs:comment "The codebook, coding instructions, few-shot examples, expert feedback, and expert-coded labels are placed in prompts or LoRA training. A generated entry or a shared fine-tune can reproduce unpublished coding rules or third-party database wording."@en ;
+    pair:concernsRiskPattern pat:SensitiveInformationDisclosureRiskPattern ;
+    pair:concernsTaxonomyEntry atlas:confidential-data-in-prompt,
+        atlas:confidential-information-in-data,
+        atlas:ip-information-in-prompt,
+        atlas:revealing-confidential-information,
+        mit:subdomain-2-1 .
+
+cdr:risk-legal-source-rights
+    a beamr:Risk ;
+    rdfs:label "Restricted collection and reuse of legal sources"@en ;
+    rdfs:comment "Climate Change Laws of the World, the IEA Policies and Measures database, and official gazettes are collected under terms of use. An incomplete review or a scraper that goes beyond the approved list can breach collection limits, licence terms, or leave the provenance of a text unclear."@en ;
+    pair:concernsRiskPattern pat:SupplyChainCompromiseRiskPattern ;
+    pair:concernsTaxonomyEntry atlas:data-acquisition,
+        atlas:data-usage-rights,
+        atlas:data-provenance .
+
+cdr:risk-opaque-open-weight-model
+    a beamr:Risk ;
+    rdfs:label "Opaque open-weight model and licence"@en ;
+    rdfs:comment "The locally deployed open-weight model is used for coding and as the base for LoRA. Its training data cannot be inspected, so a code cannot be traced to training sources, documentation of that data is thin, and the model licence may restrict this use."@en ;
+    pair:concernsRiskPattern pat:SupplyChainCompromiseRiskPattern ;
+    pair:concernsTaxonomyEntry atlas:inaccessible-training-data,
+        atlas:lack-of-data-transparency,
+        atlas:model-usage-rights,
+        atlas:untraceable-attribution,
+        mit:subdomain-7-4 .
+
+cdr:risk-local-compute-footprint
+    a beamr:Risk ;
+    rdfs:label "Energy use of local inference and fine-tuning"@en ;
+    rdfs:comment "Repeated local inference, benchmarking, and LoRA fine-tuning are the compute-heavy steps of the workflow. The PAIR-AI catalogue has a MIT environmental-harm entry for this and no IBM Risk Atlas entry."@en ;
+    pair:concernsTaxonomyEntry mit:subdomain-6-6 .
+
+# ============================================================
+# WHERE EACH RISK ARISES
+# ============================================================
+
+cdr:dataset-cleaning beamr:hasRisk cdr:risk-uneven-country-coding .
+cdr:country-aggregation beamr:hasRisk cdr:risk-uneven-country-coding .
+cdr:gold-standard-preparation beamr:hasRisk cdr:risk-uneven-country-coding .
+cdr:instruction-design beamr:hasRisk cdr:risk-uneven-country-coding .
+
+cdr:local-model-inference beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-document-prompt-injection,
+    cdr:risk-research-material-in-context,
+    cdr:risk-opaque-open-weight-model,
+    cdr:risk-local-compute-footprint .
+
+cdr:document-length-check beamr:hasRisk cdr:risk-misleading-policy-codes .
+cdr:summary-fallback beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-document-prompt-injection .
+cdr:full-document-processing beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-document-prompt-injection .
+cdr:json-generation beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-document-prompt-injection .
+
+cdr:initial-benchmarking beamr:hasRisk cdr:risk-evaluation-contamination .
+cdr:categorical-evaluation beamr:hasRisk
+    cdr:risk-evaluation-contamination,
+    cdr:risk-out-of-domain-countries .
+cdr:textual-evaluation beamr:hasRisk
+    cdr:risk-evaluation-contamination,
+    cdr:risk-out-of-domain-countries .
+cdr:prompt-and-few-shot-improvement beamr:hasRisk cdr:risk-evaluation-contamination .
+
+cdr:lora-fine-tuning beamr:hasRisk
+    cdr:risk-evaluation-contamination,
+    cdr:risk-uneven-country-coding,
+    cdr:risk-research-material-in-context,
+    cdr:risk-opaque-open-weight-model,
+    cdr:risk-local-compute-footprint .
+
+cdr:model-comparison beamr:hasRisk
+    cdr:risk-evaluation-contamination,
+    cdr:risk-out-of-domain-countries .
+cdr:model-selection beamr:hasRisk cdr:risk-overreliance-on-candidates .
+
+cdr:terms-of-use-review beamr:hasRisk cdr:risk-legal-source-rights .
+cdr:legal-text-scraping beamr:hasRisk
+    cdr:risk-legal-source-rights,
+    cdr:risk-document-prompt-injection .
+cdr:legal-text-collection beamr:hasRisk
+    cdr:risk-legal-source-rights,
+    cdr:risk-document-prompt-injection .
+
+cdr:application-inference beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-out-of-domain-countries,
+    cdr:risk-document-prompt-injection,
+    cdr:risk-local-compute-footprint .
+cdr:candidate-generation beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-out-of-domain-countries,
+    cdr:risk-uneven-country-coding .
+
+cdr:expert-validation beamr:hasRisk cdr:risk-overreliance-on-candidates .
+cdr:model-calibration beamr:hasRisk cdr:risk-feedback-retraining .
+cdr:approach-update beamr:hasRisk cdr:risk-feedback-retraining .
+cdr:improved-model-inference beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-out-of-domain-countries,
+    cdr:risk-feedback-retraining,
+    cdr:risk-document-prompt-injection,
+    cdr:risk-local-compute-footprint .
+cdr:final-candidate-generation beamr:hasRisk cdr:risk-misleading-policy-codes .
+cdr:database-review-preparation beamr:hasRisk cdr:risk-overreliance-on-candidates .
+
+cdr:expert-coded-dataset beamr:hasRisk
+    cdr:risk-uneven-country-coding,
+    cdr:risk-research-material-in-context .
+cdr:country-level-dataset beamr:hasRisk cdr:risk-out-of-domain-countries .
+cdr:codebook beamr:hasRisk
+    cdr:risk-uneven-country-coding,
+    cdr:risk-research-material-in-context .
+cdr:llm-instructions beamr:hasRisk cdr:risk-research-material-in-context .
+cdr:open-weight-llm beamr:hasRisk
+    cdr:risk-opaque-open-weight-model,
+    cdr:risk-local-compute-footprint .
+cdr:fine-tuned-model beamr:hasRisk
+    cdr:risk-evaluation-contamination,
+    cdr:risk-research-material-in-context,
+    cdr:risk-opaque-open-weight-model,
+    cdr:risk-local-compute-footprint .
+cdr:policy-document beamr:hasRisk cdr:risk-document-prompt-injection .
+cdr:policy-summary beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-document-prompt-injection .
+cdr:structured-json-output beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-overreliance-on-candidates .
+cdr:gold-standard beamr:hasRisk
+    cdr:risk-out-of-domain-countries,
+    cdr:risk-evaluation-contamination,
+    cdr:risk-uneven-country-coding .
+cdr:prompt-template beamr:hasRisk cdr:risk-research-material-in-context .
+cdr:few-shot-examples beamr:hasRisk
+    cdr:risk-evaluation-contamination,
+    cdr:risk-uneven-country-coding,
+    cdr:risk-research-material-in-context .
+cdr:expert-feedback beamr:hasRisk
+    cdr:risk-feedback-retraining,
+    cdr:risk-research-material-in-context .
+cdr:approved-source-list beamr:hasRisk cdr:risk-legal-source-rights .
+cdr:legal-texts beamr:hasRisk cdr:risk-legal-source-rights .
+cdr:climate-change-laws-database beamr:hasRisk cdr:risk-legal-source-rights .
+cdr:iea-policies-database beamr:hasRisk cdr:risk-legal-source-rights .
+cdr:scraper beamr:hasRisk cdr:risk-legal-source-rights .
+cdr:collected-legal-texts beamr:hasRisk
+    cdr:risk-out-of-domain-countries,
+    cdr:risk-document-prompt-injection,
+    cdr:risk-legal-source-rights .
+cdr:candidate-entries beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-overreliance-on-candidates .
+cdr:validated-candidates beamr:hasRisk cdr:risk-feedback-retraining .
+cdr:calibrated-coding-rules beamr:hasRisk cdr:risk-feedback-retraining .
+cdr:final-candidate-entries beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-overreliance-on-candidates .
+cdr:database-review-queue beamr:hasRisk
+    cdr:risk-misleading-policy-codes,
+    cdr:risk-overreliance-on-candidates .
