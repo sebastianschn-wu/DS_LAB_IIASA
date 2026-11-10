@@ -1,0 +1,328 @@
+﻿sheet_row,Jurisdiction,split,group,seed
+2,Australia,train,https://www.agriculture.gov.au/agriculture-land/forestry/policies/forest-policy-statement,42
+3,Australia,train,https://www.agriculture.gov.au/agriculture-land/forestry/policies/rfa,42
+4,Australia,test,https://www.ato.gov.au/businesses-and-organisations/income-deductions-and-concessions/income-and-deductions-for-business/deductions/deductions-for-carbon-sink-forest-expenses,42
+5,Australia,test,https://faolex.fao.org/docs/pdf/aus112294.pdf,42
+6,Australia,test,https://www.dcceew.gov.au/climate-change/emissions-reduction/accu-scheme,42
+7,Australia,train,https://www.stateoftheenvironment.des.qld.gov.au/biodiversity/management-responses/policy-and-programs/national-landcare-programme,42
+8,Australia,train,https://www.agriculture.gov.au/agriculture-land/farm-food-drought/climatechange/mitigation/cfi/plantation-forestry-notifications,42
+9,Australia,test,https://www.agriculture.gov.au/agriculture-land/forestry/national-forest-industries-plan,42
+10,Australia,train,https://business.gov.au/grants-and-programs/national-landcare-program-environment-small-grants,42
+11,Australia,train,https://www.dcceew.gov.au/climate-change/publications/technology-investment-roadmap,42
+12,Australia,train,https://www.dcceew.gov.au/environment/environmental-markets/agriculture-stewardship/c-b-pilot,42
+13,Australia,train,https://www.minister.industry.gov.au/ministers/pitt/media-releases/accelerating-carbon-capture-technologies,42
+14,Australia,train,https://www.minister.industry.gov.au/ministers/taylor/media-releases/cutting-emissions-and-creating-jobs-international-partnerships,42
+15,Australia,test,https://www.minister.industry.gov.au/ministers/taylor/media-releases/energy-and-emissions-reduction-agreement-south-australia,42
+16,Australia,train,https://www.dcceew.gov.au/about/news/nscic-round-2-grant-guidelines-available,42
+17,Australia,train,https://www.agriculture.gov.au/agriculture-land/forestry/national/australian-forest-and-wood-innovations,42
+18,Australia,train,https://business.gov.au/grants-and-programs/carbon-capture-use-and-storage-hubs-and-technologies-program-technologies-stream,42
+19,Australia,train,https://www.aph.gov.au/parliamentary_business/bills_legislation/bills_search_results/result?bid=r6885,42
+20,Australia,train,https://www.dcceew.gov.au/environment/environmental-markets/nature-repair-market,42
+21,Australia,test,https://www.agriculture.gov.au/agriculture-land/forestry/industries/support-plantation-establishment-program,42
+22,Australia,train,https://www.agriculture.gov.au/agriculture-land/farm-food-drought/natural-resources/soils/national-soil-action-plan,42
+23,Australia,train,https://www.agriculture.gov.au/agriculture-land/farm-food-drought/natural-resources/landcare/climate-smart#funded-projects,42
+24,Australia,test,https://www.dcceew.gov.au/environment/epbc/epbc-act-reform,42
+25,Australia,train,https://www.dcceew.gov.au/climate-change/emissions-reduction/agricultural-land-sectors/carbon-farming-outreach-program,42
+26,Australia,test,https://www.agriculture.gov.au/agriculture-land/farm-food-drought/climatechange/ag-and-land-sector-plan,42
+27,Australia,test,https://www.industry.gov.au/publications/industry-sector-plan,42
+28,Australia,train,https://www.industry.gov.au/publications/resources-sector-plan,42
+29,Australia,train,https://www.dcceew.gov.au/climate-change/publications/net-zero-plan,42
+30,Australia,train,DOC-09,42
+31,Australia,train,DOC-09,42
+32,Australia,train,https://www.dcceew.gov.au/climate-change/emissions-reduction/2030-target,42
+33,Australia,train,https://www.dcceew.gov.au/climate-change/ndc,42
+34,Australia,train,https://www.dcceew.gov.au/climate-change/emissions-reporting/national-greenhouse-energy-reporting-scheme/safeguard-mechanism,42
+35,European Union,train,https://eur-lex.europa.eu/legal-content/en/txt/?uri=celex:32006r1367,42
+36,European Union,train,https://eur-lex.europa.eu/eli/reg/2018/842,42
+37,European Union,test,https://eur-lex.europa.eu/eli/dir/2003/87,42
+38,European Union,train,https://eur-lex.europa.eu/legal-content/en/txt/?uri=celex:32024r2620,42
+39,European Union,train,https://eur-lex.europa.eu/legal-content/en/txt/?uri=celex:52025dc0085,42
+40,European Union,train,https://eur-lex.europa.eu/legal-content/en/txt/?uri=celex:52024dc0062,42
+41,European Union,train,https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en,42
+42,European Union,test,https://investeu.europa.eu/investeu-programme_en,42
+43,European Union,train,https://eur-lex.europa.eu/legal-content/en/txt/?uri=celex%3a02009l0031-20181224,42
+44,European Union,train,https://agriculture.ec.europa.eu/common-agricultural-policy/financing-cap/cap-funds_en,42
+45,European Union,test,https://eur-lex.europa.eu/eli/reg/2022/869/oj/eng,42
+46,European Union,train,https://eur-lex.europa.eu/eli/dir/2011/92,42
+47,European Union,train,https://eur-lex.europa.eu/eli/reg/2024/3012/oj/eng,42
+48,European Union,train,https://commission.europa.eu/strategy-and-policy/eu-budget/performance-and-reporting/programme-performance-statements/life-performance/life-monitoring-and-evaluation_en,42
+49,European Union,train,https://cinea.ec.europa.eu/programmes/connecting-europe-facility/energy-infrastructure-connecting-europe-facility-0_en,42
+50,European Union,test,https://commission.europa.eu/funding-tenders/find-funding/eu-funding-programmes/innovation-fund_en,42
+51,European Union,test,https://climate.ec.europa.eu/eu-action/european-green-deal/delivering-european-green-deal_en,42
+52,European Union,train,https://eur-lex.europa.eu/eli/reg/2021/1119,42
+53,European Union,test,https://eur-lex.europa.eu/eli/reg/2024/1735/oj/eng,42
+54,European Union,test,https://eur-lex.europa.eu/eli/dir/2001/42,42
+55,European Union,train,https://ec.europa.eu/transparency/documents-register/detail?ref=com(2021)800,42
+56,European Union,test,https://eur-lex.europa.eu/legal-content/en/txt/?uri=celex%3a52018dc0673,42
+57,European Union,test,https://eur-lex.europa.eu/legal-content/en/txt/?uri=celex:52019dc0640,42
+58,European Union,train,https://eur-lex.europa.eu/eli/reg/2018/841,42
+59,European Union,train,DOC-05,42
+60,European Union,train,DOC-04,42
+61,European Union,test,DOC-02,42
+62,Argentina,train,https://unfccc.int/documents/622013,42
+63,Argentina,train,https://climate-laws.org/document/national-decree-1070-05-2005-creation-of-the-argentine-carbon-fund_26bf,42
+64,Argentina,train,https://unfccc.int/sites/default/files/ndc/2022-05/traduccio%cc%81n%20ndc_argentina.pdf,42
+65,Argentina,train,http://fapda.apps.fao.org/fapda/index.html#main.html?policyframeworkid=359,42
+66,Argentina,test,https://climate-laws.org/document/national-strategy-for-the-use-of-carbon-markets-enumec_e784,42
+67,Argentina,train,https://climate-laws.org/document/national-plan-for-the-restoration-of-native-forests-pnrbn_3605,42
+68,Argentina,test,https://faolex.fao.org/docs/pdf/arg223735.pdf,42
+69,Argentina,train,https://climate-laws.org/document/law-27520-on-minimum-budgets-for-adaptation-and-mitigation-to-global-climate-change_f2e5,42
+70,Argentina,train,http://servicios.infoleg.gob.ar/infoleginternet/anexos/360000-364999/363918/norma.htm,42
+71,Argentina,test,https://faolex.fao.org/docs/pdf/arg189818.pdf,42
+72,Argentina,train,https://unfccc.int/documents/624856,42
+73,Argentina,train,https://faolex.fao.org/docs/pdf/arg223575.pdf,42
+74,Argentina,test,https://climate-laws.org/document/joint-resolution-1-2018-creating-the-environmental-and-insurance-sustainability-program_8187,42
+75,European Union,train,https://unfccc.int/documents/210328,42
+76,Australia,test,https://unfccc.int/sites/default/files/resource/australias_lts_web.pdf,42
+77,Brazil,train,https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/decreto/d10828.htm,42
+78,Brazil,train,https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/lei/l13576.htm,42
+79,Brazil,train,https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/decreto/d12677.htm,42
+80,Brazil,test,https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2024/lei/l15042.htm,42
+81,Brazil,test,https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2009/lei/l12187.htm,42
+82,Brazil,train,https://www.gov.br/mma/pt-br/composicao/smc/plano-clima,42
+83,Brazil,train,https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14119.htm,42
+84,Brazil,test,https://www.gov.br/mma/pt-br/composicao/sbio/dflo/plano-nacional-de-recuperacao-da-vegetacao-nativa-planaveg,42
+85,Brazil,test,https://faolex.fao.org/docs/pdf/bra216335.pdf,42
+86,Brazil,train,https://climate-laws.org/document/ordinance-mma-370-2015-approving-the-redd-strategy-enredd_6eb6,42
+87,Brazil,train,https://www.amazonfund.gov.br/en/home,42
+88,Brazil,train,https://redd.unfccc.int/files/brazil_national_redd__strategy.pdf,42
+89,Brazil,test,DOC-01,42
+90,Brazil,test,DOC-01,42
+91,Brazil,train,https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2012/lei/l12651.htm,42
+92,Brazil,train,https://www.gov.br/agricultura/pt-br/assuntos/insumos-agropecuarios/insumos-agricolas/fertilizantes/legislacao/lei-no-12-890-de-10-de-dezembro-de-2013_ingles.pdf,42
+93,Brazil,train,https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/decreto/d11815.htm,42
+94,Brazil,train,https://www.gov.br/agricultura/pt-br/assuntos/sustentabilidade/plano-abc/plano-abc-agricultura-de-baixa-emissao-de-carbono,42
+95,Brazil,train,https://www.gov.br/agricultura/pt-br/assuntos/sustentabilidade/pronasolos,42
+96,Brazil,train,https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2022/decreto/d11075.htm,42
+97,Brazil,train,https://www.gov.br/agricultura/pt-br/assuntos/sustentabilidade/plano-abc,42
+98,Brazil,test,https://unfccc.int/sites/default/files/ndc/2023-11/brazil%20first%20ndc%202023%20adjustment.pdf,42
+99,Brazil,train,https://unfccc.int/sites/default/files/ndc/2022-06/brazil%20first%20ndc%20(updated%20submission).pdf,42
+100,Brazil,test,https://unfccc.int/sites/default/files/ndc/2023-11/brazil%20first%20ndc%202023%20updated%20submission.pdf,42
+101,Brazil,train,https://unfccc.int/sites/default/files/2024-11/brazil_second%20nationally%20determined%20contribution%20%28ndc%29_november2024.pdf,42
+102,Canada,train,https://natural-resources.canada.ca/forest-forestry/2-billion-trees-program,42
+103,Canada,test,https://www.canada.ca/en/environment-climate-change/services/climate-change/pricing-pollution-how-it-will-work/output-based-pricing-system/federal-greenhouse-gas-offset-system.html,42
+104,Canada,train,https://www.canada.ca/en/treasury-board-secretariat/services/innovation/greening-government/strategy.html,42
+105,Canada,test,https://icapcarbonaction.com/system/files/ets_pdfs/icap-etsmap-factsheet-135.pdf,42
+106,Canada,train,https://www.canada.ca/en/services/environment/weather/climatechange/climate-plan/climate-plan-overview/emissions-reduction-2030/plan.html,42
+107,Canada,train,https://www.canada.ca/en/environment-climate-change/services/climate-change/low-carbon-economy-fund.html,42
+108,Canada,train,https://natural-resources.canada.ca/sites/nrcan/files/energy/pdf/nrcan_ccms_en.pdf,42
+109,Canada,test,https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/corporations/business-tax-credits/clean-economy-itc/carbon-capture-itc.html,42
+110,Canada,train,https://laws-lois.justice.gc.ca/eng/acts/c-19.3,42
+111,Canada,train,https://agriculture.canada.ca/en/programs/agricultural-climate-solutions-farm-climate-action-fund,42
+112,Canada,train,https://unfccc.int/files/focus/long-term_strategies/application/pdf/canadas_mid-century_long-term_strategy.pdf,42
+113,Canada,train,https://www.canada.ca/en/services/environment/weather/climatechange/pan-canadian-framework/climate-change-plan.html,42
+114,Canada,train,https://agriculture.canada.ca/en/programs/agricultural-clean-technology-adoption-stream,42
+115,Canada,test,DOC-03,42
+116,Canada,test,DOC-03,42
+117,Canada,train,https://unfccc.int/sites/default/files/2025-02/canada%27s%202035%20nationally%20determined%20contribution.pdf,42
+118,France,train,https://www.info.gouv.fr/actualite/france-2030-ouverture-du-guichet-et-annonce-des-resultats-de-l-ami-renouvellement-forestier,42
+119,France,test,https://www.legifrance.gouv.fr/jorf/id/jorftext000043956924,42
+120,France,train,https://www.legifrance.gouv.fr/jorf/id/jorftext000037657959,42
+121,France,test,https://agriculture.gouv.fr/le-programme-national-de-la-foret-et-du-bois-2016-2026,42
+122,France,test,https://agriculture.gouv.fr/pac-2023-2027-le-plan-strategique-national,42
+123,France,train,https://www.gouvernement.fr/france-2030,42
+124,France,train,https://www.ecologie.gouv.fr/politiques-publiques/strategie-nationale-bas-carbone-snbc-2-vigueur,42
+125,France,train,https://www.legifrance.gouv.fr/jorf/id/jorftext000036711308,42
+126,France,train,https://www.ecologie.gouv.fr/presse/strategie-nationale-ccus-letat-accelere-decarbonation-industrielle,42
+127,France,train,https://www.legifrance.gouv.fr/jorf/id/jorftext000039355955,42
+128,France,test,https://bofip.impots.gouv.fr/bofip/13774-pgp.html/actu-2022-00155,42
+129,France,train,https://www.ecologie.gouv.fr/sites/default/files/documents/national%20forest%20accounting%20plan%20france%202019%20with%20explanary%20note%20ven.pdf,42
+130,France,train,DOC-05,42
+131,France,train,DOC-04,42
+132,France,train,DOC-06,42
+133,France,test,DOC-02,42
+134,India,train,https://moef.gov.in/uploads/2017/08/gim_mission-document-1.pdf,42
+135,India,train,https://beeindia.gov.in/sites/default/files/ccts.pdf,42
+136,India,train,https://www.indiacode.nic.in/bitstream/123456789/2151/1/a2016-38.pdf,42
+137,India,test,https://unfccc.int/sites/default/files/resource/india_ltleds.pdf,42
+138,India,train,https://www.niti.gov.in/sites/default/files/2022-12/ccus-report.pdf,42
+139,India,test,https://unfccc.int/sites/default/files/ndc/2022-08/india%20updated%20first%20nationally%20determined%20contrib.pdf,42
+140,India,train,https://moef.gov.in/wp-content/uploads/2018/04/pg01-52.pdf,42
+141,India,train,https://unfccc.int/sites/default/files/ndc/2022-08/india%20updated%20first%20nationally%20determined%20contribution%202022-2030.pdf,42
+142,Indonesia,test,https://redd.unfccc.int/files/indonesia_redd__national_strategy_2021-2030.pdf,42
+143,Indonesia,test,https://climate-laws.org/document/minister-of-energy-and-mineral-resources-regulation-no-2-of-2023-on-carbon-capture-utilisation-and-storage-in-oil-and-gas_3c82,42
+144,Indonesia,train,https://www.unccd.int/sites/default/files/national-reports/2022/idn/unccd%20so1%20report%202022%20idn.pdf,42
+145,Indonesia,test,https://planologi.kehutanan.go.id/assets/img/publication/buku_renops_folu_netsink_2030_(english).pdf,42
+146,Indonesia,train,https://faolex.fao.org/docs/pdf/ins213370.pdf,42
+147,Indonesia,train,https://climate-laws.org/document/regulation-212022-on-guidelines-for-implementing-the-carbon-economic-value-a200,42
+148,Indonesia,train,https://climate-laws.org/document/ojk-regulation-no-14-on-carbon-trading-ojk-14-2023_83dc,42
+149,Indonesia,train,http://extwprlegs1.fao.org/docs/pdf/ins158781.pdf,42
+150,Indonesia,train,https://unfccc.int/sites/default/files/resource/indonesia_lts-lccr_2021.pdf,42
+151,Indonesia,train,https://climate-laws.org/document/government-regulation-no-57-2016-on-peat-ecosystem-protection-and-management_d5e3,42
+152,Indonesia,train,https://unfccc.int/sites/default/files/ndc/2022-06/first%20ndc%20indonesia_submitted%20to%20unfccc%20set_november%20%202016.pdf,42
+153,Indonesia,train,https://unfccc.int/sites/default/files/ndc/2022-06/indonesia%20updated%20ndc%202021.pdf,42
+154,Indonesia,test,https://unfccc.int/sites/default/files/ndc/2022-09/updated%20ndc%20indonesia%202022%20-%20updated%20enhanced%20ndc.pdf,42
+155,Indonesia,train,https://unfccc.int/sites/default/files/2025-10/indonesia_second%20ndc_2025.10.24.pdf,42
+156,Indonesia,train,https://www.unccd.int/documents/indonesia-national-action-programme,42
+157,Italy,test,https://www.masaf.gov.it/flex/cm/pages/serveblob.php/l/it/idpagina/15339,42
+158,Italy,train,https://commission.europa.eu/publications/italy-final-updated-necp-2021-2030-submitted-2024_en,42
+159,Italy,train,https://www.mase.gov.it/portale/web/guest/nfap-italian-national-forestry-accounting-plan,42
+160,Italy,train,https://www.mase.gov.it/pagina/piano-nazionale-di-adattamento-ai-cambiamenti-climatici-pnacc,42
+161,Italy,test,https://climate-laws.org/document/long-term-strategy-for-reducing-greenhouse-gas-emissions-lts_3ffc,42
+162,Italy,train,https://www.normattiva.it/atto/caricadettaglioatto?atto.datapubblicazionegazzetta=2023-12-09&atto.codiceredazionale=23g00195&tipodettaglio=originario,42
+163,Italy,train,https://www.normattiva.it/atto/caricadettaglioatto?atto.datapubblicazionegazzetta=2011-10-04&atto.codiceredazionale=011g0207&tipodettaglio=singolavigenza&classica=true&datavigenza=13/06/2024,42
+164,Italy,train,DOC-05,42
+165,Italy,train,DOC-04,42
+166,Italy,train,DOC-06,42
+167,Italy,test,DOC-02,42
+168,Japan,train,https://www.jcm.go.jp,42
+169,Japan,test,https://www.meti.go.jp/english/press/2023/0628_002.html,42
+170,Japan,test,https://gx-league.go.jp/en,42
+171,Japan,test,https://www.japaneselawtranslation.go.jp/en/laws/view/4479/en,42
+172,Japan,test,https://japancredit.go.jp/english,42
+173,Japan,train,https://www.meti.go.jp/english/policy/energy_environment/global_warming/ggs2050/index.html,42
+174,Japan,train,https://www.maff.go.jp/e/policies/forestry,42
+175,Japan,train,https://www.env.go.jp/content/000338677.pdf,42
+176,Japan,train,https://www.meti.go.jp/english/press/2024/0213_003.html,42
+177,Japan,train,https://www.meti.go.jp/english/policy/energy_environment/global_warming/gifund/index.html,42
+178,Japan,train,https://www.enecho.meti.go.jp/en/category/special/article/detail_201.html,42
+179,Japan,train,https://www.maff.go.jp/e/policies/env/sustainagri/directpay.html,42
+180,Japan,train,https://www4.unfccc.int/sites/ndcstaging/pages/party.aspx?party=jpn,42
+181,Japan,train,https://unfccc.int/sites/default/files/ndc/2022-06/japans_ndc_april%202021.pdf,42
+182,Japan,test,https://unfccc.int/sites/default/files/2025-02/japans%202035-2040%20ndc.pdf,42
+183,Japan,train,https://www.env.go.jp/en/headline/2406.html,42
+184,Republic of Korea,train,https://elaw.klri.re.kr/eng_mobile/viewer.do?hseq=59958&type=part&key=39,42
+185,Republic of Korea,train,https://english.motie.go.kr/en/pc/pressreleases/bbs/bbsview.do?bbs_seq_n=897&bbs_cd_n=2,42
+186,Republic of Korea,test,https://icapcarbonaction.com/en/ets/korea-emissions-trading-system-k-ets,42
+187,Republic of Korea,train,https://unfccc.int/sites/default/files/resource/lts1_rkorea.pdf,42
+188,Republic of Korea,test,https://faolex.fao.org/docs/pdf/kor187062.pdf,42
+189,Republic of Korea,train,https://unfccc.int/sites/default/files/ndc/2022-06/211223_the%20republic%20of%20korea%27s%20enhanced%20update%20of%20its%20first%20nationally%20determined%20contribution_211227_editorial%20change.pdf,42
+190,Republic of Korea,train,https://unfccc.int/sites/default/files/2025-12/the%20republic%20of%20koreas%202035%20ndc.pdf,42
+191,Mexico,train,https://www.dof.gob.mx/nota_detalle.php?codigo=5739992&fecha=30/09/2024,42
+192,Mexico,train,https://www.conafor.gob.mx/transparencia/docs/2021/programa_nacional_forestal_pnf_2020-2024.pdf,42
+193,Mexico,train,https://www.gob.mx/conafor/documentos/estrategia-nacional-redd-enaredd,42
+194,Mexico,train,https://www.gob.mx/conafor/documentos/reglas-de-operacion-2024,42
+195,Mexico,train,https://www.fao.org/faolex/results/details/en/c/lex-faoc036056,42
+196,Mexico,test,https://www.fao.org/faolex/results/details/en/c/lex-faoc113284,42
+197,Mexico,train,https://icapcarbonaction.com/en/ets/mexican-emissions-trading-system,42
+198,Mexico,test,https://unfccc.int/sites/default/files/ndc/2022-06/mexico_indc_03.30.2015.pdf,42
+199,Mexico,test,https://unfccc.int/sites/default/files/ndc/2022-11/mexico_ndc_unfccc_update2022_final.pdf,42
+200,Mexico,train,https://unfccc.int/sites/default/files/2025-11/ndc%203.0%20me%cc%81xico_spanish.pdf,42
+201,Saudi Arabia,train,https://climatepolicydatabase.org/policies/greenhouse-gas-crediting-and-offsetting-mechanism-gcom,42
+202,Saudi Arabia,train,https://www.fao.org/faolex/results/details/en/c/lex-faoc145469,42
+203,Saudi Arabia,test,https://faolex.fao.org/docs/pdf/sau151268.pdf,42
+204,Saudi Arabia,train,https://www.sgi.gov.sa,42
+205,Saudi Arabia,train,https://unfccc.int/sites/default/files/ndc/2022-06/saudi_arabia_indc_english.pdf,42
+206,Saudi Arabia,train,https://unfccc.int/sites/default/files/resource/202203111154---ksa%20ndc%202021.pdf,42
+207,Saudi Arabia,test,https://unfccc.int/sites/default/files/2026-01/2nd%20ksa%20ndc%20document%20final%20document%20(28122025)_dna.pdf,42
+208,South Africa,test,https://faolex.fao.org/docs/pdf/saf149602.pdf,42
+209,South Africa,train,https://faolex.fao.org/docs/pdf/saf148487.pdf,42
+210,South Africa,train,https://www.nda.gov.za/phocadownloadpap/general_reports/policyguidedevcontrolforests.pdf,42
+211,South Africa,train,https://faolex.fao.org/docs/pdf/saf211400.pdf,42
+212,South Africa,train,https://www.fao.org/faolex/results/details/en/c/lex-faoc231745,42
+213,South Africa,train,https://www.gov.za/documents/acts/carbon-tax-act-15-2019-english-afrikaans-23-may-2019,42
+214,South Africa,test,https://unfccc.int/sites/default/files/ndc/2022-06/south%20africa%20ndc%20%20final%20november%202016.pdf,42
+215,South Africa,test,https://unfccc.int/sites/default/files/ndc/2022-06/south%20africa%20updated%20first%20ndc%20%20september%202021.pdf,42
+216,South Africa,train,https://unfccc.int/sites/default/files/2025-11/south_africa_ndc_2025.pdf,42
+217,United Kingdom,train,https://www.legislation.gov.uk/ukpga/2008/27/contents,42
+218,United Kingdom,train,https://www.legislation.gov.uk/ukpga/2023/52,42
+219,United Kingdom,test,https://www.legislation.gov.uk/uksi/2010/2221,42
+220,United Kingdom,train,https://www.gov.uk/government/publications/environmental-improvement-plan,42
+221,United Kingdom,train,https://www.legislation.gov.uk/ukpga/2021/30/contents,42
+222,United Kingdom,train,https://www.gov.uk/government/publications/england-trees-action-plan-2021-to-2024,42
+223,United Kingdom,train,https://www.gov.uk/government/publications/england-peat-action-plan,42
+224,United Kingdom,test,https://www.gov.uk/guidance/nature-for-climate-peatland-grant-scheme,42
+225,United Kingdom,train,https://assets.publishing.service.gov.uk/media/689cda8487bf475940723f5b/uk-ets-ggrs-main-response.pdf,42
+226,United Kingdom,train,https://www.gov.uk/government/publications/greenhouse-gas-removals-ggr-business-model,42
+227,United Kingdom,train,https://www.gov.uk/government/publications/net-zero-strategy,42
+228,United Kingdom,train,https://www.gov.uk/government/collections/net-zero-innovation-portfolio,42
+229,United Kingdom,train,https://www.gov.uk/government/publications/carbon-capture-usage-and-storage-ccus-investor-roadmap,42
+230,United Kingdom,train,https://www.gov.uk/government/publications/the-uk-carbon-capture-usage-and-storage-ccus-deployment-pathway-an-action-plan,42
+231,United Kingdom,test,https://www.gov.uk/government/publications/cluster-sequencing-for-carbon-capture-usage-and-storage-ccus-track-2,42
+232,United Kingdom,test,https://www.gov.uk/government/publications/carbon-capture-usage-and-storage-ccus-deployment-track-1-expansion-hynet-cluster,42
+233,United Kingdom,test,https://www.gov.uk/government/publications/design-of-the-carbon-capture-and-storage-ccs-infrastructure-fund/the-carbon-capture-and-storage-infrastructure-fund-an-update-on-its-design-accessible-webpage,42
+234,United Kingdom,test,https://www.gov.uk/government/publications/the-ten-point-plan-for-a-green-industrial-revolution,42
+235,United Kingdom,test,https://www.woodlandcarboncode.org.uk/view-the-code,42
+236,United Kingdom,train,https://www.iucn-uk-peatlandprogramme.org/peatland-code,42
+237,United Kingdom,train,https://www.nature.scot/climate-change/nature-based-solutions/nature-based-solutions-practice/peatland-action,42
+238,United Kingdom,test,https://www.ruralpayments.org/topics/all-schemes/forestry-grant-scheme,42
+239,United Kingdom,train,https://www.gov.wales/small-grants-woodland-creation-scheme,42
+240,United Kingdom,train,https://naturalresources.wales/about-us/news-and-blogs/news/more-please-for-peatland-restoration-grant/?lang=en,42
+241,United Kingdom,train,https://www.daera-ni.gov.uk/articles/peatland-challenge-fund-2024-2027,42
+242,United Kingdom,train,https://www.daera-ni.gov.uk/articles/daera-forestry-grants#toc-1,42
+243,United Kingdom,train,https://www.daera-ni.gov.uk/articles/daera-forestry-grants#toc-0,42
+244,United Kingdom,test,https://greenclaims.campaign.gov.uk,42
+245,United Kingdom,train,DOC-05,42
+246,United Kingdom,train,https://unfccc.int/sites/default/files/ndc/2022-06/uk%20ndc%20ictu%20submission%20december%202020.pdf,42
+247,United Kingdom,train,https://assets.publishing.service.gov.uk/media/679b5ee8413ef177de146c1e/uk-2035-nationally-determined-contribution.pdf,42
+248,United States,train,https://unfccc.int/sites/default/files/ndc/2022-06/u.s.a.%20first%20ndc%20submission.pdf,42
+249,United States,train,https://faolex.fao.org/docs/pdf/usa217120.pdf,42
+250,United States,test,https://unfccc.int/sites/default/files/2024-12/united%20states%202035%20ndc.pdf,42
+251,United States,train,https://unfccc.int/sites/default/files/resource/us_accessiblelts2021.pdf,42
+252,United States,test,https://www.energy.gov/documents/strategy-carbon-negative-shot,42
+253,United States,train,https://www.irs.gov/credits-deductions/credit-for-carbon-oxide-sequestration,42
+254,United States,train,DOC-07,42
+255,United States,test,DOC-08,42
+256,United States,test,DOC-08,42
+257,United States,train,DOC-07,42
+258,United States,train,https://www.netl.doe.gov/carbon-management/carbon-storage/carbonsafe,42
+259,United States,test,https://www.epa.gov/uic/class-vi-wells-used-geologic-sequestration-carbon-dioxide,42
+260,United States,train,https://www.nrcs.usda.gov/farmbill,42
+261,United States,train,https://www.nrcs.usda.gov/programs-initiatives/agricultural-conservation-easement-program,42
+262,United States,train,https://www.fsa.usda.gov/resources/programs/conservation-reserve-program,42
+263,United States,test,https://www.ams.usda.gov/rules-regulations/gcsa,42
+264,United States,train,https://www.st.nmfs.noaa.gov/assets/ecosystems/documents/nfwpcas-final.pdf,42
+265,United States,train,https://faolex.fao.org/docs/pdf/us210398.pdf,42
+266,United States,train,https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/03/ocean-climate-action-plan_final.pdf,42
+267,China,test,https://unfccc.int/sites/default/files/ndc/2022-06/china%27s%20indc%20-%20on%2030%20june%202015.pdf,42
+268,China,train,https://unfccc.int/sites/default/files/ndc/2022-06/%e4%b8%ad%e5%9b%bd%e8%90%bd%e5%ae%9e%e5%9b%bd%e5%ae%b6%e8%87%aa%e4%b8%bb%e8%b4%a1%e7%8c%ae%e6%88%90%e6%95%88%e5%92%8c%e6%96%b0%e7%9b%ae%e6%a0%87%e6%96%b0%e4%b8%be%e6%8e%aa.pdf,42
+269,China,train,https://unfccc.int/documents/497392,42
+270,China,test,https://en.ndrc.gov.cn/policies/202110/t20211027_1301020.html,42
+271,China,train,https://faolex.fao.org/docs/pdf/chn231038.pdf,42
+272,China,test,https://faolex.fao.org/docs/pdf/chn206160.pdf,42
+273,China,train,https://en.ndrc.gov.cn/policies/202203/p020220315511326748336.pdf,42
+274,China,train,https://icapcarbonaction.com/en/ets/china-national-ets,42
+275,China,train,https://english.mee.gov.cn/resources/laws/envir_elatedlaws/202012/t20201204_811489.shtml,42
+276,China,train,https://faolex.fao.org/docs/pdf/chn167104.pdf,42
+277,China,test,http://www.mee.gov.cn/gkml/hbb/bgt/201606/t20160624_356016.htm,42
+278,China,train,https://www.ndrc.gov.cn/xxgk/zcfb/tz/201305/t20130509_963892.html,42
+279,China,test,https://www.mee.gov.cn/gkml/hbb/bgt/201311/t20131104_262804.htm,42
+280,China,train,https://www.ndrc.gov.cn/xxgk/zcfb/gg/201409/t20140905_961102.html,42
+281,China,train,https://qzlx.people.com.cn/n/2013/1023/c366722-23303447.html,42
+282,China,train,https://www.gov.cn/gongbao/content/2016/content_5139491.htm,42
+283,China,train,https://documents1.worldbank.org/curated/en/644411468769266652/pdf/multi0page.pdf,42
+284,China,test,https://www.cbd.int/doc/world/cn/cn-nbsap-v2-en.pdf,42
+285,China,train,http://www.chinaagtradefair.com/index.php?case=archive&act=show&aid=45,42
+286,China,train,https://www.moa.gov.cn/govpublic/kjjys/202206/t20220623_6403784.htm,42
+287,China,train,https://english.www.gov.cn/statecouncil/ministries/202210/20/content_ws6350875dc6d0a757729e1728.html,42
+288,China,test,http://www.reea.agri.cn/stgjhz/201912/p020191210367966718424.pdf,42
+289,Germany,train,DOC-05,42
+290,Germany,train,DOC-04,42
+291,Germany,train,DOC-06,42
+292,Germany,test,DOC-02,42
+293,Germany,test,https://www.gesetze-im-internet.de/ksg,42
+294,Germany,train,https://www.bmwk.de/redaktion/de/downloads/e/240226-eckpunkte-negativemissionen.pdf?__blob=publicationfile&v=4,42
+295,Germany,train,https://www.bmwk.de/redaktion/de/downloads/e/240226-eckpunkte-cms.pdf?__blob=publicationfile&v=4,42
+296,Germany,test,https://www.gesetze-im-internet.de/kspg/kspg.pdf,42
+297,Germany,train,https://www.gesetze-im-internet.de/hoheseeeinbrg/hoheseeeinbrg.pdf,42
+298,Germany,train,https://www.gesetze-im-internet.de/bnatschg_2009,42
+299,Germany,test,https://www.gesetze-im-internet.de/bbodschg,42
+300,Germany,train,https://www.bmuv.de/publikation/aktionsprogramm-natuerlicher-klimaschutz,42
+301,Germany,train,https://www.bmuv.de/publikation/nationale-moorschutzstrategie,42
+302,Germany,train,https://agriculture.ec.europa.eu/cap-my-country/cap-strategic-plans/germany_en,42
+303,Germany,train,https://www.bmleh.de/de/themen/laendliche-regionen/foerderung-des-laendlichen-raumes/gemeinschaftsaufgabe-agrarstruktur-kuestenschutz/gemeinschaftsaufgabe-agrarstr-kuestenschutz_node.html,42
+304,Germany,train,https://www.bundesumweltministerium.de/download/eckpunkte-fuer-eine-nationale-biomassestrategie-nabis,42
+305,Germany,train,https://www.bundesanzeiger.de/pub/publication/rcvuhldjgzsc8pkz029/content/rcvuhldjgzsc8pkz029/banz%20at%2030.08.2024%20b1.pdf?inline=,42
+306,Germany,test,https://www.bundeswirtschaftsministerium.de/redaktion/de/downloads/f/foerderrichtlinie-klimaschutzvertraege.pdf?__blob=publicationfile&v=4,42
+307,Germany,test,https://www.klimaschutzvertraege.info,42
+308,Germany,train,https://ec.europa.eu/commission/presscorner/detail/en/ip_23_3779,42
+309,Germany,train,https://www.bmftr.bund.de/shareddocs/downloads/de/2022/zukunftsstrategie-fui.html,42
+310,Germany,train,https://www.foerderdatenbank.de/fdb/content/de/foerderprogramm/bund/bmwi/bik-modul1-2.html,42
+311,Russia,test,https://faolex.fao.org/docs/pdf/rus190391e.pdf,42
+312,Russia,train,https://faolex.fao.org/docs/pdf/rus216708.pdf,42
+313,Russia,train,https://unfccc.int/sites/default/files/2025-09/rf_second_ndc.pdf,42
+314,Russia,train,http://www.fao.org/faolex/results/details/en/c/lex-faoc228240,42
+315,Russia,train,https://faolex.fao.org/docs/pdf/rus223320e.pdf,42
+316,Russia,train,http://www.fao.org/faolex/results/details/en/c/lex-faoc228242,42
+317,Russia,test,http://www.fao.org/faolex/results/details/en/c/lex-faoc228248,42
+318,Russia,test,http://government.ru/docs/34064,42
+319,Russia,train,http://www.fao.org/faolex/results/details/en/c/lex-faoc228301,42
+320,Russia,train,http://www.fao.org/faolex/results/details/en/c/lex-faoc208958,42
+321,Turkey,test,https://unfccc.int/sites/default/files/ndc/2022-06/the_indc_of_turkey_v.15.19.30.pdf,42
+322,Turkey,test,https://unfccc.int/sites/default/files/ndc/2023-04/t%c3%9crk%c4%b0ye_updated%201st%20ndc_en.pdf,42
+323,Turkey,train,https://unfccc.int/sites/default/files/2025-11/the%20second%20ndc%20of%20t%c3%bcrkiye.pdf,42
+324,Turkey,train,https://unfccc.int/sites/default/files/resource/turkiye_long_term_climate_strategy.pdf,42
+325,Turkey,train,https://webdosya.csb.gov.tr/db/iklim/editordosya/iklim_degisikligi_eylem_plani_en_2014.pdf,42
+326,Turkey,train,https://webdosya.csb.gov.tr/db/iklim/editordosya/iklim_degisikligi_stratejisi_en(2).pdf,42
+327,Turkey,train,https://www.ecolex.org/details/legislation/forest-law-no-6831-lex-faoc020346,42
+328,Turkey,train,https://www.resmigazete.gov.tr/eskiler/2012/12/20121230m2-29.htm,42

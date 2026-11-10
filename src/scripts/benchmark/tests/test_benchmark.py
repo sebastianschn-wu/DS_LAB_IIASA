@@ -95,3 +95,37 @@ def test_full_run_on_small_example(tmp_path):
     assert (out / "accuracy_by_source.png").exists()
     summary = (out / "benchmark_summary.md").read_text()
     assert "Framework* → model *Instrument*: 1x" in summary
+
+
+def test_compare_runs_on_test_split(tmp_path):
+    spec = importlib.util.spec_from_file_location("compare_script", SCRIPT.parent / "compare.script.py")
+    compare = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(compare)
+
+    gold = pd.DataFrame({
+        "sheet_row": ["2", "3", "4", "5"], "policy_id": ["A-2", "A-3", "A-4", "A-5"],
+        "Jurisdiction": ["A"] * 4, "Iso": ["A"] * 4, "Document_full_title": ["t"] * 4,
+        "Policy_scope": ["Framework", "Instrument", "Instrument", "Framework"],
+        "CDR_link": ["x", "y", "z", "w"],
+    })
+    for field in ["Value_chain_focus", "Instrument_broad", "Target_type", "Target_binding",
+                  "compliance_market_type", "Broad_method", "Specific_method", "Instrument_type", "Years_amended"]:
+        gold[field] = None
+    split = pd.DataFrame({"sheet_row": ["2", "3", "4", "5"], "split": ["train", "test", "test", "train"]})
+    zero = gold.drop(columns=["policy_id", "Iso"]).assign(source_used="document", fallback_reason=None, model="m")
+    few = zero.copy()
+    zero["Policy_scope"] = ["Framework", "Framework", "Framework", "Framework"]  # 0 of 2 test rows right
+    few["Policy_scope"] = ["Framework", "Instrument", "Instrument", "Framework"]  # 2 of 2 test rows right
+    paths = {}
+    for name, frame in [("gold", gold), ("split", split), ("zero", zero), ("few", few)]:
+        paths[name] = tmp_path / f"{name}.csv"
+        frame.to_csv(paths[name], index=False)
+
+    out = tmp_path / "cmp"
+    compare.main(["--run", f"zero={paths['zero']}", "--run", f"few={paths['few']}", "--gold", str(paths["gold"]),
+                  "--split-file", str(paths["split"]), "--output-dir", str(out)])
+    table = pd.read_csv(out / "comparison.csv")
+    scope = table[(table.field == "Policy_scope") & (table.subset == "all")].set_index("run")["accuracy"]
+    assert scope["zero"] == 0.0 and scope["few"] == 1.0
+    assert table["n_policies"].eq(2).all()
+    assert (out / "comparison_core_fields.png").exists()
