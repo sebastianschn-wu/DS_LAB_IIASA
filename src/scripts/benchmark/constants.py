@@ -7,6 +7,8 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_PREDICTIONS = REPO_ROOT / "results" / "first_loop_coding.csv"
 DEFAULT_GOLD = REPO_ROOT / "data" / "processed" / "gold_standard_clean.csv"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "results" / "benchmark"
+DEFAULT_SPLIT_FILE = REPO_ROOT / "src" / "resources" / "train_test_split.csv"
+DEFAULT_COMPARISON_DIR = REPO_ROOT / "results" / "benchmark" / "comparison"
 CSV_ENCODING = "utf-8-sig"
 
 KEY = "sheet_row"
@@ -67,3 +69,8 @@ COLOR_SURFACE = "#fcfcfb"
 COLOR_TEXT = "#0b0b0b"
 COLOR_TEXT_SECONDARY = "#52514e"
 COLOR_GRID = "#e4e3df"
+# Validated categorical order for up to four runs (slots 1-4); values are labelled directly on the bars.
+RUN_COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"]
+OUT_COMPARISON_TABLE = "comparison.csv"
+OUT_COMPARISON_SUMMARY = "comparison.md"
+OUT_COMPARISON_FIGURE = "comparison_core_fields.png"

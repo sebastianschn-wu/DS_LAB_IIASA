@@ -55,6 +55,7 @@ from constants import (  # noqa: E402
     DEFAULT_GOLD,
     DEFAULT_OUTPUT_DIR,
     DEFAULT_PREDICTIONS,
+    DEFAULT_SPLIT_FILE,
     FALLBACK,
     GOLD_RENAME,
     KEY,
@@ -90,7 +91,13 @@ from metrics import (  # noqa: E402
 
 
 # ---------------------------------------------------------------- loading
-def load(predictions_path: Path, gold_path: Path) -> pd.DataFrame:
+def read_split(path: Path) -> dict[str, str]:
+    table = pd.read_csv(path, dtype=str, encoding=CSV_ENCODING)
+    return dict(zip(table[KEY].str.strip(), table["split"].str.strip()))
+
+
+def load(predictions_path: Path, gold_path: Path, only_split: str | None = None,
+         split_file: Path = DEFAULT_SPLIT_FILE) -> pd.DataFrame:
     if not gold_path.exists():
         raise SystemExit(
             f"Gold standard not found: {gold_path}\n"
@@ -112,6 +119,11 @@ def load(predictions_path: Path, gold_path: Path) -> pd.DataFrame:
     missing = len(pred) - len(merged)
     if missing:
         print(f"Warning: {missing} predicted rows have no gold row and are ignored.")
+    if only_split:
+        split = read_split(split_file)
+        before = len(merged)
+        merged = merged[merged[KEY].map(split) == only_split].copy()
+        print(f"Using only the '{only_split}' split: {len(merged)} of {before} policies")
     return merged
 
 
@@ -376,12 +388,15 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--bertscore", action="store_true", help="Also compute BERTScore (pip install bert-score; downloads a model)")
     parser.add_argument("--bertscore-model", default="roberta-large")
     parser.add_argument("--no-figure", action="store_true")
+    parser.add_argument("--only-split", choices=["train", "test"], default=None,
+                        help="Evaluate only this part of the train/test split (use 'test' for few-shot runs)")
+    parser.add_argument("--split-file", type=Path, default=DEFAULT_SPLIT_FILE)
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> None:
     args = parse_args(sys.argv[1:] if argv is None else argv)
-    frame = load(args.predictions, args.gold)
+    frame = load(args.predictions, args.gold, args.only_split, args.split_file)
     print(f"Comparing {len(frame)} policies "
           f"({(frame[SOURCE] == SUBSET_DOCUMENT).sum()} from document, {(frame[SOURCE] == SUBSET_SUMMARY).sum()} from summary)")
 

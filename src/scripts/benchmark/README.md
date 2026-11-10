@@ -18,6 +18,7 @@ python src/scripts/benchmark/benchmark.script.py
 | `--output-dir` | `results/benchmark/` | Where results are written |
 | `--bertscore` | off | Also compute BERTScore for CDR_link (`pip install bert-score`, downloads ~1.4 GB model) |
 | `--bertscore-model` | `roberta-large` | Smaller alternative: `distilbert-base-uncased` |
+| `--only-split` | off | `test` evaluates only the test part of `src/resources/train_test_split.csv` |
 
 ## Outputs (`results/benchmark/`)
 
@@ -31,6 +32,20 @@ python src/scripts/benchmark/benchmark.script.py
 | `text_metrics.csv` | ROUGE-1, ROUGE-L, BLEU (and BERTScore) for CDR_link |
 | `row_level.csv` | Gold vs. model per policy for the core fields (for error analysis) |
 | `country_accuracy.csv` | Core agreement per country |
+
+## Comparing runs (zero-shot vs. one-shot vs. few-shot)
+
+```bash
+python src/scripts/benchmark/compare.script.py \
+    --run "zero-shot=results/first_loop_coding.csv" \
+    --run "one-shot=results/shots1_test_coding.csv" \
+    --run "three-shot=results/shots3_test_coding.csv"
+```
+
+Evaluates every run on the **test split** (99 policies; `--only-split none` uses all rows) and writes to
+`results/benchmark/comparison/`: `comparison.md` (table per field and run, document rows and all rows),
+`comparison.csv`, and `comparison_core_fields.png` (chart, up to four runs). The few-shot runs come from
+`src/scripts/few-shot/`.
 
 ## Metrics
 
