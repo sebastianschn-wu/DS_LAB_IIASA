@@ -1,5 +1,6 @@
 # Generated benchmark data (project material, do not commit)
 data/processed/
+results/source_cache
 
 # Python
 __pycache__/
