@@ -122,3 +122,26 @@ def test_schema_only_allows_codebook_values(setup):
     assert "Regulatory instrument" not in schema["properties"]["Value_chain_focus"]["enum"]
     assert schema["properties"]["Instrument_type"]["type"] == "array"
     assert schema["properties"]["CDR_link"] == {"type": "string"}
+
+
+def test_rag_context_and_rows_file(setup, tmp_path):
+    runner, fl, calls = setup
+    rows_file = tmp_path / "rows.csv"
+    split = runner.read_split(runner.DEFAULT_SPLIT_FILE)
+    test_rows = [row for row, part in split.items() if part == "test"][:2]
+    rows_file.write_text("sheet_row\n" + "\n".join(test_rows) + "\n", encoding="utf-8")
+    out = tmp_path / "rag.csv"
+    runner.main(["--context", "rag", "--retriever", "bm25", "--rows", str(rows_file), "--no-text", "skip",
+                 "--output", str(out), "--cache-dir", str(tmp_path / "c")], fl=fl)
+    rows = read(out)
+    assert [row["sheet_row"] for row in rows] == test_rows
+    assert rows[0]["excerpted"].startswith("rag")
+    assert int(rows[0]["tokens_sent"]) <= 6100
+    assert "passages most relevant to the coding questions" in calls[0]["prompt"]
+    assert rows[1]["source_used"] == "omitted"  # fake download failed, skipped
+
+
+def test_default_output_name(setup):
+    runner, _, _ = setup
+    args = runner.parse_args(["--prompt", "v2", "--context", "rag", "--rows", "x/document_policies_test.csv"])
+    assert runner.default_output(args).name == "retrieved_v2_rag_document_policies_test.csv"

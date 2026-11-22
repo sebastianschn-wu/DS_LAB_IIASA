@@ -30,6 +30,37 @@ The rule is a heuristic. The output has `input_type_reason` and `final_url` for 
 be corrected in `input_type_overrides.csv` (`sheet_row,input_type,note`) and are applied on the next run
 (with `--force`).
 
+## RAG + chunking for long documents (`--context rag`)
+
+By default a document over the token budget is shortened with a keyword excerpt. With `--context rag` the
+model instead gets, within the same 6,000 tokens (`rag.py`):
+
+1. **The document's own summary**: Executive Summary, Summary, Overview, Resumen ejecutivo, Zusammenfassung,
+   概要 and so on. If there is none, its **introduction**.
+2. **The beginning** of the document: title, purpose and scope.
+3. **The passages most relevant to each coding question**: the document is cut into chunks of about 350 tokens,
+   and for each question (scope, CDR methods, storage, instruments, demand, targets, funding) the most similar
+   chunks are retrieved, taking turns between the questions.
+
+Retrieval uses Ollama embeddings (`bge-m3`, multilingual) and caches them in
+`results/source_cache/embeddings/`. `--retriever bm25` is a keyword alternative that needs no model. The
+`excerpted` column shows what happened per policy: `no` (full text), `yes` (keyword excerpt), `rag`,
+`rag+summary` or `rag+intro`.
+
+On the 38 long test documents, a summary section is found in 7 and an introduction in 9.
+
+```bash
+ollama pull bge-m3                                   # once, about 1.2 GB
+python src/scripts/baseline/baseline.script.py --prompt v2 --context rag \
+    --rows src/resources/document_policies_test.csv --no-text skip
+# -> results/baseline/retrieved_v2_rag_document_policies_test.csv
+```
+
+`--rows` codes only the policies in a CSV with a `sheet_row` column.
+`src/resources/document_policies_test.csv` holds the 74 test policies for which a document or webpage could be
+retrieved (56 policy texts, 18 webpage descriptions). `--no-text skip` skips a policy if its download fails
+this time, so it is not coded from the title.
+
 ## Run (on the Mac with Ollama)
 
 ```bash

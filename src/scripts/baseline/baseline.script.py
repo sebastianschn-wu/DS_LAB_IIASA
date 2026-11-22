@@ -19,6 +19,10 @@ loading, prompt building, the Ollama call and output validation):
 4. ``--prompt v1|v2`` chooses the prompt (v2 = targeted clarifications, see
    ``src/scripts/prompt-optimization/prompt_versions.py``), ``--schema`` makes
    Ollama return only allowed values for closed fields.
+5. ``--context rag`` replaces the keyword excerpt of long documents with RAG:
+   the document's own summary section (if any), its beginning and the chunks
+   retrieved for each coding question (see ``rag.py``). ``--rows FILE.csv``
+   codes only the policies listed in a CSV (e.g. only those with a document).
 
 ``--input summary`` codes the same policies from the expert summary only. It is
 not a fair test (the summary is expert interpretation) but shows how much
@@ -29,8 +33,10 @@ Usage:
     python src/scripts/baseline/baseline.script.py --prompt v2           # revised prompt
     python src/scripts/baseline/baseline.script.py --input summary       # control: expert summary only
     python src/scripts/baseline/baseline.script.py --limit 3             # quick check
+    python src/scripts/baseline/baseline.script.py --prompt v2 --context rag \
+        --rows src/resources/document_policies_test.csv --no-text skip      # RAG, documents only
 
-Output: results/baseline/<input>_<prompt>[_schema]_<split>.csv
+Output: results/baseline/<input>_<prompt>[_rag][_schema]_<split or rows file>.csv
 """
 
 from __future__ import annotations
@@ -55,6 +61,7 @@ for path in (HERE, PROMPT_DIR):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
+import rag  # noqa: E402
 import retrieval  # noqa: E402
 from prompt_versions import PROMPT_V1, PROMPT_VERSIONS, instructions_for, user_prompt_header  # noqa: E402
 
@@ -96,6 +103,11 @@ SOURCE_LABELS = {
     retrieval.INPUT_SUMMARY: "short summary of the policy written by the database team",
 }
 EXCERPT_NOTE = " (shortened: the beginning and the most relevant passages of a long document; [...] marks gaps)"
+RAG_NOTE = (" (long document: its own summary section if it has one, its beginning, and the passages most "
+            "relevant to the coding questions; [...] marks gaps)")
+CONTEXT_KEYWORD = "keyword"
+CONTEXT_RAG = "rag"
+EMBED_CACHE_DIR = REPO_ROOT / "results" / "source_cache" / "embeddings"  # already git-ignored
 
 
 def load_script(path: Path, name: str):
@@ -164,16 +176,37 @@ def call_with_schema(fl, host, model, instructions, user_prompt, num_ctx, temper
 
 def default_output(args) -> Path:
     schema = "_schema" if args.schema else ""
-    return RESULTS_DIR / f"{args.input}_{args.prompt}{schema}_{args.split}.csv"
+    context = "_rag" if args.context == CONTEXT_RAG and args.input == INPUT_RETRIEVED else ""
+    scope = args.rows.stem if args.rows else args.split
+    return RESULTS_DIR / f"{args.input}_{args.prompt}{context}{schema}_{scope}.csv"
 
 
-def prepare_source(fl, policy, args, session, overrides) -> dict:
+def read_rows_file(path: Path) -> set[str]:
+    """sheet_row values listed in a CSV (column 'sheet_row')."""
+    with path.open(newline="", encoding="utf-8-sig") as handle:
+        reader = csv.DictReader(handle)
+        if "sheet_row" not in (reader.fieldnames or []):
+            raise SystemExit(f"{path} needs a 'sheet_row' column")
+        return {row["sheet_row"].strip() for row in reader if (row.get("sheet_row") or "").strip()}
+
+
+def make_retriever(fl, args):
+    if args.context != CONTEXT_RAG or args.input != INPUT_RETRIEVED:
+        return None
+    if args.retriever == "bm25":
+        return rag.BM25Retriever()
+    retriever = rag.OllamaEmbedRetriever(fl.requests, args.host, args.embed_model, args.embed_cache_dir)
+    retriever.check()
+    return retriever
+
+
+def prepare_source(fl, policy, args, session, overrides, retriever=None) -> dict:
     """Source text, input type and bookkeeping for one policy."""
     if args.input == INPUT_SUMMARY_MODE:
         text = fl.normalize_text(policy.get(fl.SUMMARY_COLUMN, ""))
         kind = retrieval.INPUT_SUMMARY if text else retrieval.INPUT_NO_TEXT
         return {"text": text, "type": kind, "reason": "expert CDR_link summary" if text else "no summary",
-                "excerpted": False, "full_tokens": fl.estimate_tokens(text), "final_url": "", "error": ""}
+                "excerpted": "", "full_tokens": fl.estimate_tokens(text), "final_url": "", "error": ""}
 
     link = policy.get(fl.COL_LINK, "")
     if link:
@@ -185,8 +218,15 @@ def prepare_source(fl, policy, args, session, overrides) -> dict:
     if row_id in overrides:
         kind, reason = overrides[row_id], "manual override"
     text = fetched.get("text", "") if kind != retrieval.INPUT_NO_TEXT else ""
-    text, shortened = retrieval.excerpt(text, args.max_doc_tokens, fl.estimate_tokens) if text else ("", False)
-    return {"text": text, "type": kind, "reason": reason, "excerpted": shortened,
+    method = ""
+    if text and fl.estimate_tokens(text) > args.max_doc_tokens:
+        if retriever is not None:
+            text, report = rag.build_context(text, args.max_doc_tokens, fl.estimate_tokens, retriever)
+            method = "rag+summary" if report["summary"] else "rag+intro" if report.get("introduction") else "rag"
+        else:
+            text, _ = retrieval.excerpt(text, args.max_doc_tokens, fl.estimate_tokens)
+            method = "yes"
+    return {"text": text, "type": kind, "reason": reason, "excerpted": method,
             "full_tokens": int(fetched.get("tokens") or 0), "final_url": fetched.get("final_url", ""),
             "error": fetched.get("error", "")}
 
@@ -198,7 +238,7 @@ def code_one(fl, policy, source, instructions, allowed, args, num_ctx, schema) -
         COL_INPUT_REASON: source["reason"],
         COL_PROMPT: args.prompt,
         COL_SCHEMA: "yes" if args.schema else "no",
-        COL_EXCERPTED: "yes" if source["excerpted"] else "no",
+        COL_EXCERPTED: source["excerpted"] or "no",
         COL_TOKENS_SENT: str(fl.estimate_tokens(source["text"])) if source["text"] else "0",
         COL_FINAL_URL: source["final_url"],
         fl.COL_DOCUMENT_TOKENS: str(source["full_tokens"] or ""),
@@ -210,7 +250,8 @@ def code_one(fl, policy, source, instructions, allowed, args, num_ctx, schema) -
         row[fl.COL_OMIT_REASON] = "no text retrieved"
         return row
 
-    label = SOURCE_LABELS[source["type"]] + (EXCERPT_NOTE if source["excerpted"] else "")
+    note = RAG_NOTE if source["excerpted"].startswith("rag") else EXCERPT_NOTE if source["excerpted"] else ""
+    label = SOURCE_LABELS[source["type"]] + note
     prompt = fl.build_user_prompt(policy, label, source["text"])
     host = args.host.rstrip("/")
     last_error, content = "", ""
@@ -266,6 +307,15 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--schema", action="store_true",
                         help="Force allowed values for closed fields (Ollama structured output, Ollama >= 0.5)")
     parser.add_argument("--split", choices=["test", "train", "all"], default="test")
+    parser.add_argument("--rows", type=Path,
+                        help="CSV with a sheet_row column: code only these policies (instead of --split)")
+    parser.add_argument("--context", choices=[CONTEXT_KEYWORD, CONTEXT_RAG], default=CONTEXT_KEYWORD,
+                        help="Long documents: keyword excerpt (default) or rag = own summary section + chunks "
+                             "retrieved per coding question")
+    parser.add_argument("--retriever", choices=["embed", "bm25"], default="embed",
+                        help="RAG retrieval: Ollama embeddings (default) or bm25 keywords (no model needed)")
+    parser.add_argument("--embed-model", default="bge-m3", help="Ollama embedding model for --retriever embed")
+    parser.add_argument("--embed-cache-dir", type=Path, default=EMBED_CACHE_DIR)
     parser.add_argument("--split-file", type=Path, default=DEFAULT_SPLIT_FILE)
     parser.add_argument("--no-text", choices=["title", "skip"], default="title",
                         help="Policies without retrievable text: code from title/context (default) or skip")
@@ -291,9 +341,16 @@ def main(argv: list[str] | None = None, fl=None) -> Path:
     prose, definitions = fl.load_codebook(fl.DEFAULT_CODEBOOK)
     allowed = fl.load_allowed_values(fl.DEFAULT_SHEET)
     policies = fl.load_policies(fl.DEFAULT_SHEET)
-    if args.split != "all":
+    if args.rows:
+        wanted = read_rows_file(args.rows)
+        policies = [p for p in policies if p[fl.COL_SHEET_ROW] in wanted]
+        scope = f"rows from {args.rows.name}"
+    elif args.split != "all":
         split = read_split(args.split_file)
         policies = [p for p in policies if split.get(p[fl.COL_SHEET_ROW]) == args.split]
+        scope = f"{args.split} split"
+    else:
+        scope = "all policies"
 
     instructions = instructions_for(args.prompt, fl.build_instructions(prose, definitions, allowed))
     fl.USER_PROMPT_HEADER = user_prompt_header(args.prompt, fl.USER_PROMPT_HEADER)
@@ -305,10 +362,12 @@ def main(argv: list[str] | None = None, fl=None) -> Path:
     ))
     overrides = retrieval.read_overrides(args.overrides)
 
-    print(f"Policies ({args.split} split): {len(policies)} | input: {args.input} | prompt: {args.prompt}"
+    print(f"Policies ({scope}): {len(policies)} | input: {args.input} | prompt: {args.prompt}"
+          f"{' | context: rag/' + args.retriever if args.context == CONTEXT_RAG else ''}"
           f"{' + schema' if args.schema else ''} | model: {args.model}")
     print(f"Output: {output}")
     fl.ensure_ollama(args.host.rstrip("/"), args.model)
+    retriever = make_retriever(fl, args)
 
     results = {} if args.force else read_rows(fl, output)
     pending = [p for p in policies if args.force or not is_done(results.get(p[fl.COL_SHEET_ROW], {}))]
@@ -323,7 +382,7 @@ def main(argv: list[str] | None = None, fl=None) -> Path:
         print(f"[{index}/{len(pending)}] row {row_id} {policy.get(fl.COL_JURISDICTION, '')} | "
               f"{policy.get(fl.COL_DOCUMENT_TITLE, '')}")
         try:
-            source = prepare_source(fl, policy, args, session, overrides)
+            source = prepare_source(fl, policy, args, session, overrides, retriever)
             row = code_one(fl, policy, source, instructions, allowed, args, num_ctx, schema)
         except Exception as exc:
             row = fl.blank_result(policy, args.model)

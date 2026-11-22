@@ -67,3 +67,28 @@ rows are the main result.
 ```bash
 python -m pytest src/scripts/benchmark/tests -q
 ```
+
+## Final benchmark (all runs, same policies, one report)
+
+```bash
+python src/scripts/benchmark/final-benchmark.script.py \
+    --run "v1=results/baseline/retrieved_v1_test.csv" \
+    --run "v2=results/baseline/retrieved_v2_test.csv" \
+    --run "v2 + RAG=results/baseline/retrieved_v2_rag_document_policies_test.csv"
+```
+
+The script scores every run on exactly the same policies. By default these are the test policies with a
+document (`src/resources/document_policies_test.csv`); `--rows none` uses all policies of the split. The first
+run is the reference.
+
+Outputs go to `results/benchmark/final/`. `final_benchmark.md` contains:
+- the mean of the six core fields with a 95% bootstrap CI, and the change against the reference with its CI
+- per field: accuracy, macro-F1, and Jaccard / micro-F1 for multi-label fields
+- fixed/broken counts per field
+- the four systematic error patterns
+- results per input type and per context method (full text / keyword excerpt / RAG)
+- labels outside the codebook and model errors
+- ROUGE/BLEU for CDR_link (`--bertscore` adds BERTScore)
+
+Further files: `final_core_fields.png` (chart), `field_metrics.csv`, `label_metrics.csv`, `paired.csv` and
+`per_policy.csv`.
