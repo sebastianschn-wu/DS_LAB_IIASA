@@ -1,75 +1,75 @@
-﻿sheet_row,Jurisdiction,Document_full_title,_input,core_v1,core_v2,core_v2 + RAG
-5,Australia,Carbon Credits (Carbon Farming Initiative) Act 2011,policy_text,0.5,0.3333333333333333,0.3333333333333333
-37,European Union,"EU ETS Directive (Directive 2003/87/EC, amended by Directive (EU) 2023/959)",policy_text,0.5,0.5,0.16666666666666666
-42,European Union,InvestEU Programme,policy_text,0.5,0.6666666666666666,0.6666666666666666
-45,European Union,TEN-E Regulation (Regulation 2022/869),policy_text,0.8333333333333334,0.3333333333333333,0.16666666666666666
-50,European Union,EU Innovation Fund,no_text,0.3333333333333333,0.6666666666666666,0.6666666666666666
-51,European Union,Fit for 55 Package,policy_text,0.16666666666666666,0.3333333333333333,0.3333333333333333
-53,European Union,Net-Zero Industry Act (Regulation (EU) 2024/1735),policy_text,0.5,0.5,0.5
-54,European Union,SEA Directive (2001/42/EC),policy_text,0.3333333333333333,0.3333333333333333,0.16666666666666666
-56,European Union,EU Bioeconomy Strategy,policy_text,0.16666666666666666,0.3333333333333333,0.3333333333333333
-57,European Union,European Green Deal (COM(2019) 640),policy_text,0.16666666666666666,0.3333333333333333,0.3333333333333333
-61,European Union,EU Nationally Determined Contribution 2035,policy_text,0.3333333333333333,0.5,0.3333333333333333
-66,Argentina,National Strategy for the Use of Carbon Markets (ENUMeC),webpage_description,0.3333333333333333,0.6666666666666666,0.6666666666666666
-68,Argentina,"Native Forest Research, Development and Innovation Program (PIDIBN)",policy_text,0.8333333333333334,0.16666666666666666,0.16666666666666666
-71,Argentina,National Action Plan on Forests and Climate Change (PANByCC),policy_text,0.0,0.5,0.3333333333333333
-74,Argentina,Environmental Sustainability and Insurance Program,webpage_description,0.6666666666666666,0.3333333333333333,0.3333333333333333
-76,Australia,Long-Term Emissions Reduction Plan (Australia's Long-Term Strategy),policy_text,0.16666666666666666,0.3333333333333333,0.3333333333333333
-84,Brazil,National Policy and Plan for Recovery of Native Vegetation (Planaveg),policy_text,0.3333333333333333,0.8333333333333334,0.6666666666666666
-85,Brazil,National Fertilizer Plan (2022–2050),policy_text,0.3333333333333333,0.3333333333333333,0.3333333333333333
-89,Brazil,Action Plan to Prevent and Control Deforestation in the Amazon (PPCDAm),webpage_description,0.6666666666666666,0.6666666666666666,0.6666666666666666
-90,Brazil,Action Plan to Prevent and Control Deforestation and Fire in the Brazilian Cerrado (PPCerrado),webpage_description,0.5,0.3333333333333333,0.3333333333333333
-98,Brazil,Brazil's Nationally Determined Contribution – First NDC,policy_text,0.5,0.5,0.6666666666666666
-103,Canada,Canada's Greenhouse Gas Offset Credit System,webpage_description,0.3333333333333333,0.5,0.5
-105,Canada,Output-Based Pricing System (OBPS),policy_text,0.3333333333333333,0.3333333333333333,0.3333333333333333
-109,Canada,"Carbon Capture, Utilization and Storage (CCUS) Investment Tax Credit (ITC)",webpage_description,0.6666666666666666,0.6666666666666666,0.6666666666666666
-115,Canada,Canada's Nationally Determined Contribution – First NDC (2021 Enhanced),policy_text,0.5,0.6666666666666666,0.5
-116,Canada,Canada's Nationally Determined Contribution – Enhanced First NDC (2021),policy_text,0.5,0.6666666666666666,0.5
-121,France,"National Forest and Wood Programme (Programme national de la forêt et du bois, PNFB) 2016–2026",webpage_description,0.5,0.5,0.5
-122,France,"CAP Strategic Plan (France) 2023–2027 (Plan Stratégique National, PSN)",webpage_description,0.16666666666666666,0.16666666666666666,0.16666666666666666
-128,France,Tax Incentive Scheme for Forest Investment (DEFI Forêt),policy_text,1.0,1.0,1.0
-133,France,EU Nationally Determined Contribution 2035 [France],policy_text,0.3333333333333333,0.3333333333333333,0.3333333333333333
-137,India,India's Long-Term Low-Carbon Development Strategy (LT-LEDS),policy_text,0.16666666666666666,0.5,0.5
-139,India,"India's Intended Nationally Determined Contribution (INDC, 2015)",policy_text,0.5,0.8333333333333334,0.8333333333333334
-142,Indonesia,REDD+ National Strategy 2021–2030,policy_text,0.16666666666666666,0.5,0.6666666666666666
-145,Indonesia,Indonesia's FOLU Net Sink 2030 – Operational Plan (MoEF Decree SK.168/MENLHK/PKTL/PLA.1/2/2022),policy_text,0.0,0.3333333333333333,0.5
-157,Italy,National Forestry Strategy (Strategia Forestale Nazionale),policy_text,0.3333333333333333,0.3333333333333333,0.3333333333333333
-167,Italy,EU Nationally Determined Contribution 2035 [Italy],policy_text,0.3333333333333333,0.3333333333333333,0.3333333333333333
-170,Japan,GX-ETS (Green Transformation Emissions Trading System) / GX League,webpage_description,0.5,0.3333333333333333,0.3333333333333333
-171,Japan,Act on Promotion of Global Warming Countermeasures (温暖化対策推進法),policy_text,0.5,0.3333333333333333,0.6666666666666666
-182,Japan,Japan's Nationally Determined Contribution 2025 (2035/2040 NDC),policy_text,0.3333333333333333,0.6666666666666666,0.5
-186,Republic of Korea,Korea Emissions Trading System (K-ETS),webpage_description,0.3333333333333333,0.3333333333333333,0.5
-188,Republic of Korea,"Republic of Korea – Intended Nationally Determined Contribution (INDC, 2015)",policy_text,0.6666666666666666,1.0,1.0
-199,Mexico,Mexico's Updated Nationally Determined Contribution (NDC Actualización 2022),policy_text,0.16666666666666666,0.5,0.5
-203,Saudi Arabia,Strategy and National Plan for Pastures (to 2033),policy_text,0.5,0.3333333333333333,0.0
-207,Saudi Arabia,Saudi Arabia Second Nationally Determined Contribution (2025),policy_text,0.3333333333333333,0.5,0.3333333333333333
-208,South Africa,Forestry 2030 Roadmap (Forestry Strategy 2009–2030),policy_text,0.8333333333333334,0.6666666666666666,0.5
-219,United Kingdom,Storage of Carbon Dioxide (Licensing etc.) Regulations 2010,policy_text,0.5,0.6666666666666666,0.5
-224,United Kingdom,Nature for Climate Peatland Grant Scheme,policy_text,0.6666666666666666,0.8333333333333334,0.8333333333333334
-231,United Kingdom,Cluster Sequencing for CCUS: Track-2,webpage_description,0.5,0.5,0.5
-232,United Kingdom,CCUS Deployment: Track-1 Expansion – HyNet Cluster,policy_text,0.5,0.5,0.5
-233,United Kingdom,Carbon Capture and Storage Infrastructure Fund (CIF),policy_text,0.6666666666666666,0.3333333333333333,0.8333333333333334
-234,United Kingdom,Ten Point Plan for a Green Industrial Revolution,webpage_description,0.0,0.5,0.5
-235,United Kingdom,Woodland Carbon Code,webpage_description,0.6666666666666666,0.5,0.5
-238,United Kingdom,Scotland Forestry Grant Scheme,policy_text,0.8333333333333334,0.8333333333333334,0.8333333333333334
-244,United Kingdom,UK Green Claims Code,webpage_description,0.6666666666666666,0.6666666666666666,0.6666666666666666
-250,United States,The United States of America Nationally Determined Contribution (2024) – 61–66% by 2035,policy_text,0.3333333333333333,0.3333333333333333,0.3333333333333333
-252,United States,Carbon Negative Shot (DOE Energy Earthshots),policy_text,0.3333333333333333,0.5,0.5
-255,United States,Infrastructure Investment and Jobs Act (IIJA) – carbon management,policy_text,0.5,0.6666666666666666,0.3333333333333333
-256,United States,SCALE Act core implementation via IIJA/CIFIA,policy_text,0.5,0.6666666666666666,0.3333333333333333
-259,United States,EPA Underground Injection Control – Class VI Well Regulations,policy_text,0.6666666666666666,0.5,0.6666666666666666
-270,China,Action Plan for Carbon Dioxide Peaking Before 2030 [2030年前碳达峰行动方案],policy_text,0.16666666666666666,0.5,0.5
-277,China,Technical Guideline for Environmental Risk Assessment of CCUS Projects (Trial) [二氧化碳捕集、利用与封存环境风险评估技术导则（试行）],policy_text,0.6666666666666666,0.3333333333333333,0.3333333333333333
-279,China,Notice on Environmental Protection for CCUS Experimental Demonstration Projects [环境保护部关于CCUS试验示范项目环境保护工作的通知],policy_text,0.5,0.16666666666666666,0.16666666666666666
-284,China,China National Biodiversity Conservation Strategy and Action Plan (2011–2030) [中国生物多样性保护战略与行动计划],policy_text,0.16666666666666666,0.5,0.5
-288,China,Climate-smart Agriculture Technical Specification for Wheat–Rice Production (NY/T 4298-2023),policy_text,0.5,0.3333333333333333,0.3333333333333333
-292,Germany,EU Nationally Determined Contribution 2035 [Germany],policy_text,0.3333333333333333,0.3333333333333333,0.3333333333333333
-293,Germany,Federal Climate Action Act (Klimaschutzgesetz – KSG),webpage_description,0.5,0.5,0.5
-296,Germany,Carbon Dioxide Storage Act (Kohlendioxidspeicherungsgesetz – KSpG),policy_text,0.6666666666666666,0.6666666666666666,0.6666666666666666
-299,Germany,Federal Soil Protection Act & Ordinance (Bundes-Bodenschutzgesetz – BBodSchG / BBodSchV),webpage_description,0.3333333333333333,0.3333333333333333,0.3333333333333333
-306,Germany,Carbon Contracts for Difference – Guideline (Förderrichtlinie Klimaschutzverträge),policy_text,0.3333333333333333,0.5,0.5
-307,Germany,"Carbon Contracts for Difference – Round 2 (2025 call, up to EUR 5bn)",webpage_description,0.5,0.3333333333333333,0.3333333333333333
-311,Russia,"Russia Intended Nationally Determined Contribution (INDC, 2015)",policy_text,0.5,0.5,0.5
-318,Russia,Forestry Development Strategy until 2030,policy_text,0.5,0.6666666666666666,0.6666666666666666
-321,Turkey,"Turkey's Intended Nationally Determined Contribution (INDC, 2015)",policy_text,0.16666666666666666,0.3333333333333333,0.3333333333333333
-322,Turkey,Turkey's Updated First Nationally Determined Contribution (2021/2023),policy_text,0.16666666666666666,0.3333333333333333,0.3333333333333333
+﻿sheet_row,Jurisdiction,Document_full_title,_input,core_v1,core_v2,core_v2 + rules,core_v2 + RAG + rules
+5,Australia,Carbon Credits (Carbon Farming Initiative) Act 2011,policy_text,0.5,0.3333333333333333,0.3333333333333333,0.3333333333333333
+37,European Union,"EU ETS Directive (Directive 2003/87/EC, amended by Directive (EU) 2023/959)",policy_text,0.5,0.5,0.5,0.16666666666666666
+42,European Union,InvestEU Programme,policy_text,0.5,0.6666666666666666,0.6666666666666666,0.6666666666666666
+45,European Union,TEN-E Regulation (Regulation 2022/869),policy_text,0.8333333333333334,0.3333333333333333,0.3333333333333333,0.16666666666666666
+50,European Union,EU Innovation Fund,no_text,0.3333333333333333,0.6666666666666666,0.6666666666666666,0.6666666666666666
+51,European Union,Fit for 55 Package,policy_text,0.16666666666666666,0.3333333333333333,0.3333333333333333,0.3333333333333333
+53,European Union,Net-Zero Industry Act (Regulation (EU) 2024/1735),policy_text,0.5,0.5,0.6666666666666666,0.6666666666666666
+54,European Union,SEA Directive (2001/42/EC),policy_text,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.16666666666666666
+56,European Union,EU Bioeconomy Strategy,policy_text,0.16666666666666666,0.3333333333333333,0.3333333333333333,0.3333333333333333
+57,European Union,European Green Deal (COM(2019) 640),policy_text,0.16666666666666666,0.3333333333333333,0.3333333333333333,0.3333333333333333
+61,European Union,EU Nationally Determined Contribution 2035,policy_text,0.3333333333333333,0.5,0.8333333333333334,0.6666666666666666
+66,Argentina,National Strategy for the Use of Carbon Markets (ENUMeC),webpage_description,0.3333333333333333,0.6666666666666666,0.6666666666666666,0.6666666666666666
+68,Argentina,"Native Forest Research, Development and Innovation Program (PIDIBN)",policy_text,0.8333333333333334,0.16666666666666666,0.0,0.0
+71,Argentina,National Action Plan on Forests and Climate Change (PANByCC),policy_text,0.0,0.5,0.5,0.3333333333333333
+74,Argentina,Environmental Sustainability and Insurance Program,webpage_description,0.6666666666666666,0.3333333333333333,0.3333333333333333,0.3333333333333333
+76,Australia,Long-Term Emissions Reduction Plan (Australia's Long-Term Strategy),policy_text,0.16666666666666666,0.3333333333333333,0.5,0.3333333333333333
+84,Brazil,National Policy and Plan for Recovery of Native Vegetation (Planaveg),policy_text,0.3333333333333333,0.8333333333333334,1.0,0.8333333333333334
+85,Brazil,National Fertilizer Plan (2022–2050),policy_text,0.3333333333333333,0.3333333333333333,0.5,0.5
+89,Brazil,Action Plan to Prevent and Control Deforestation in the Amazon (PPCDAm),webpage_description,0.6666666666666666,0.6666666666666666,0.6666666666666666,0.6666666666666666
+90,Brazil,Action Plan to Prevent and Control Deforestation and Fire in the Brazilian Cerrado (PPCerrado),webpage_description,0.5,0.3333333333333333,0.3333333333333333,0.3333333333333333
+98,Brazil,Brazil's Nationally Determined Contribution – First NDC,policy_text,0.5,0.5,0.8333333333333334,0.8333333333333334
+103,Canada,Canada's Greenhouse Gas Offset Credit System,webpage_description,0.3333333333333333,0.5,0.5,0.5
+105,Canada,Output-Based Pricing System (OBPS),policy_text,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.3333333333333333
+109,Canada,"Carbon Capture, Utilization and Storage (CCUS) Investment Tax Credit (ITC)",webpage_description,0.6666666666666666,0.6666666666666666,0.6666666666666666,0.6666666666666666
+115,Canada,Canada's Nationally Determined Contribution – First NDC (2021 Enhanced),policy_text,0.5,0.6666666666666666,0.8333333333333334,0.8333333333333334
+116,Canada,Canada's Nationally Determined Contribution – Enhanced First NDC (2021),policy_text,0.5,0.6666666666666666,0.8333333333333334,0.8333333333333334
+121,France,"National Forest and Wood Programme (Programme national de la forêt et du bois, PNFB) 2016–2026",webpage_description,0.5,0.5,0.5,0.5
+122,France,"CAP Strategic Plan (France) 2023–2027 (Plan Stratégique National, PSN)",webpage_description,0.16666666666666666,0.16666666666666666,0.16666666666666666,0.16666666666666666
+128,France,Tax Incentive Scheme for Forest Investment (DEFI Forêt),policy_text,1.0,1.0,1.0,1.0
+133,France,EU Nationally Determined Contribution 2035 [France],policy_text,0.3333333333333333,0.3333333333333333,0.6666666666666666,0.6666666666666666
+137,India,India's Long-Term Low-Carbon Development Strategy (LT-LEDS),policy_text,0.16666666666666666,0.5,0.5,0.5
+139,India,"India's Intended Nationally Determined Contribution (INDC, 2015)",policy_text,0.5,0.8333333333333334,1.0,1.0
+142,Indonesia,REDD+ National Strategy 2021–2030,policy_text,0.16666666666666666,0.5,0.5,0.6666666666666666
+145,Indonesia,Indonesia's FOLU Net Sink 2030 – Operational Plan (MoEF Decree SK.168/MENLHK/PKTL/PLA.1/2/2022),policy_text,0.0,0.3333333333333333,0.5,0.6666666666666666
+157,Italy,National Forestry Strategy (Strategia Forestale Nazionale),policy_text,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.3333333333333333
+167,Italy,EU Nationally Determined Contribution 2035 [Italy],policy_text,0.3333333333333333,0.3333333333333333,0.6666666666666666,0.6666666666666666
+170,Japan,GX-ETS (Green Transformation Emissions Trading System) / GX League,webpage_description,0.5,0.3333333333333333,0.3333333333333333,0.3333333333333333
+171,Japan,Act on Promotion of Global Warming Countermeasures (温暖化対策推進法),policy_text,0.5,0.3333333333333333,0.5,0.8333333333333334
+182,Japan,Japan's Nationally Determined Contribution 2025 (2035/2040 NDC),policy_text,0.3333333333333333,0.6666666666666666,0.8333333333333334,0.8333333333333334
+186,Republic of Korea,Korea Emissions Trading System (K-ETS),webpage_description,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.5
+188,Republic of Korea,"Republic of Korea – Intended Nationally Determined Contribution (INDC, 2015)",policy_text,0.6666666666666666,1.0,1.0,1.0
+199,Mexico,Mexico's Updated Nationally Determined Contribution (NDC Actualización 2022),policy_text,0.16666666666666666,0.5,0.6666666666666666,0.6666666666666666
+203,Saudi Arabia,Strategy and National Plan for Pastures (to 2033),policy_text,0.5,0.3333333333333333,0.3333333333333333,0.0
+207,Saudi Arabia,Saudi Arabia Second Nationally Determined Contribution (2025),policy_text,0.3333333333333333,0.5,0.6666666666666666,0.6666666666666666
+208,South Africa,Forestry 2030 Roadmap (Forestry Strategy 2009–2030),policy_text,0.8333333333333334,0.6666666666666666,0.6666666666666666,0.5
+219,United Kingdom,Storage of Carbon Dioxide (Licensing etc.) Regulations 2010,policy_text,0.5,0.6666666666666666,0.6666666666666666,0.5
+224,United Kingdom,Nature for Climate Peatland Grant Scheme,policy_text,0.6666666666666666,0.8333333333333334,0.8333333333333334,0.8333333333333334
+231,United Kingdom,Cluster Sequencing for CCUS: Track-2,webpage_description,0.5,0.5,0.5,0.5
+232,United Kingdom,CCUS Deployment: Track-1 Expansion – HyNet Cluster,policy_text,0.5,0.5,0.5,0.5
+233,United Kingdom,Carbon Capture and Storage Infrastructure Fund (CIF),policy_text,0.6666666666666666,0.3333333333333333,0.3333333333333333,0.8333333333333334
+234,United Kingdom,Ten Point Plan for a Green Industrial Revolution,webpage_description,0.0,0.5,0.5,0.5
+235,United Kingdom,Woodland Carbon Code,webpage_description,0.6666666666666666,0.5,0.5,0.5
+238,United Kingdom,Scotland Forestry Grant Scheme,policy_text,0.8333333333333334,0.8333333333333334,0.8333333333333334,0.8333333333333334
+244,United Kingdom,UK Green Claims Code,webpage_description,0.6666666666666666,0.6666666666666666,0.6666666666666666,0.6666666666666666
+250,United States,The United States of America Nationally Determined Contribution (2024) – 61–66% by 2035,policy_text,0.3333333333333333,0.3333333333333333,0.6666666666666666,0.6666666666666666
+252,United States,Carbon Negative Shot (DOE Energy Earthshots),policy_text,0.3333333333333333,0.5,0.6666666666666666,0.6666666666666666
+255,United States,Infrastructure Investment and Jobs Act (IIJA) – carbon management,policy_text,0.5,0.6666666666666666,0.6666666666666666,0.3333333333333333
+256,United States,SCALE Act core implementation via IIJA/CIFIA,policy_text,0.5,0.6666666666666666,0.6666666666666666,0.3333333333333333
+259,United States,EPA Underground Injection Control – Class VI Well Regulations,policy_text,0.6666666666666666,0.5,0.5,0.6666666666666666
+270,China,Action Plan for Carbon Dioxide Peaking Before 2030 [2030年前碳达峰行动方案],policy_text,0.16666666666666666,0.5,0.5,0.5
+277,China,Technical Guideline for Environmental Risk Assessment of CCUS Projects (Trial) [二氧化碳捕集、利用与封存环境风险评估技术导则（试行）],policy_text,0.6666666666666666,0.3333333333333333,0.3333333333333333,0.3333333333333333
+279,China,Notice on Environmental Protection for CCUS Experimental Demonstration Projects [环境保护部关于CCUS试验示范项目环境保护工作的通知],policy_text,0.5,0.16666666666666666,0.16666666666666666,0.16666666666666666
+284,China,China National Biodiversity Conservation Strategy and Action Plan (2011–2030) [中国生物多样性保护战略与行动计划],policy_text,0.16666666666666666,0.5,0.5,0.5
+288,China,Climate-smart Agriculture Technical Specification for Wheat–Rice Production (NY/T 4298-2023),policy_text,0.5,0.3333333333333333,0.3333333333333333,0.3333333333333333
+292,Germany,EU Nationally Determined Contribution 2035 [Germany],policy_text,0.3333333333333333,0.3333333333333333,0.6666666666666666,0.6666666666666666
+293,Germany,Federal Climate Action Act (Klimaschutzgesetz – KSG),webpage_description,0.5,0.5,0.6666666666666666,0.6666666666666666
+296,Germany,Carbon Dioxide Storage Act (Kohlendioxidspeicherungsgesetz – KSpG),policy_text,0.6666666666666666,0.6666666666666666,0.6666666666666666,0.6666666666666666
+299,Germany,Federal Soil Protection Act & Ordinance (Bundes-Bodenschutzgesetz – BBodSchG / BBodSchV),webpage_description,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.3333333333333333
+306,Germany,Carbon Contracts for Difference – Guideline (Förderrichtlinie Klimaschutzverträge),policy_text,0.3333333333333333,0.5,0.5,0.5
+307,Germany,"Carbon Contracts for Difference – Round 2 (2025 call, up to EUR 5bn)",webpage_description,0.5,0.3333333333333333,0.3333333333333333,0.3333333333333333
+311,Russia,"Russia Intended Nationally Determined Contribution (INDC, 2015)",policy_text,0.5,0.5,0.6666666666666666,0.6666666666666666
+318,Russia,Forestry Development Strategy until 2030,policy_text,0.5,0.6666666666666666,0.6666666666666666,0.6666666666666666
+321,Turkey,"Turkey's Intended Nationally Determined Contribution (INDC, 2015)",policy_text,0.16666666666666666,0.3333333333333333,0.6666666666666666,0.6666666666666666
+322,Turkey,Turkey's Updated First Nationally Determined Contribution (2021/2023),policy_text,0.16666666666666666,0.3333333333333333,0.6666666666666666,0.6666666666666666

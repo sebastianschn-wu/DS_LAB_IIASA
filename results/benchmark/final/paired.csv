@@ -1,3 +1,4 @@
 ﻿run,reference,core_change,ci_low,ci_high,Policy_scope_fixed,Policy_scope_broken,Value_chain_focus_fixed,Value_chain_focus_broken,Instrument_broad_fixed,Instrument_broad_broken,Target_type_fixed,Target_type_broken,Target_binding_fixed,Target_binding_broken,compliance_market_type_fixed,compliance_market_type_broken,Broad_method_fixed,Broad_method_broken,Specific_method_fixed,Specific_method_broken,Instrument_type_fixed,Instrument_type_broken,Years_amended_fixed,Years_amended_broken,core_fixed,core_broken
-v2,v1,0.0563063063063063,0.002252252252252249,0.10585585585585586,14,9,34,15,13,14,11,8,4,7,1,0,8,4,3,5,3,3,1,1,75,50
-v2 + RAG,v1,0.036036036036036036,-0.020270270270270275,0.0900900900900901,13,9,35,17,14,19,14,9,8,9,1,0,7,6,5,8,4,3,2,1,78,62
+v2,v1,0.05630630630630632,0.002252252252252248,0.10585585585585591,14,9,34,15,13,14,11,8,4,7,1,0,8,4,3,5,3,3,1,1,75,50
+v2 + rules,v1,0.12387387387387384,0.0608108108108108,0.18693693693693694,14,9,35,15,14,7,22,8,4,7,1,0,8,4,3,5,25,4,1,1,99,44
+v2 + RAG + rules,v1,0.1081081081081081,0.04054054054054054,0.17342342342342346,13,9,35,17,15,8,21,9,8,9,1,0,7,6,5,8,25,4,2,1,100,52
