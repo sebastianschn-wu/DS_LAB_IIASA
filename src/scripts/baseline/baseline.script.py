@@ -176,7 +176,11 @@ def call_with_schema(fl, host, model, instructions, user_prompt, num_ctx, temper
 
 def default_output(args) -> Path:
     schema = "_schema" if args.schema else ""
-    context = "_rag" if args.context == CONTEXT_RAG and args.input == INPUT_RETRIEVED else ""
+    context = ""
+    if args.context == CONTEXT_RAG and args.input == INPUT_RETRIEVED:
+        version = str(rag.RAG_VERSION) if rag.RAG_VERSION > 1 else ""
+        retriever = "" if args.retriever == "keywords" else f"_{args.retriever}"
+        context = f"_rag{version}{retriever}"
     scope = args.rows.stem if args.rows else args.split
     return RESULTS_DIR / f"{args.input}_{args.prompt}{context}{schema}_{scope}.csv"
 
@@ -193,6 +197,8 @@ def read_rows_file(path: Path) -> set[str]:
 def make_retriever(fl, args):
     if args.context != CONTEXT_RAG or args.input != INPUT_RETRIEVED:
         return None
+    if args.retriever == "keywords":
+        return rag.KeywordRetriever()
     if args.retriever == "bm25":
         return rag.BM25Retriever()
     retriever = rag.OllamaEmbedRetriever(fl.requests, args.host, args.embed_model, args.embed_cache_dir)
@@ -312,8 +318,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--context", choices=[CONTEXT_KEYWORD, CONTEXT_RAG], default=CONTEXT_KEYWORD,
                         help="Long documents: keyword excerpt (default) or rag = own summary section + chunks "
                              "retrieved per coding question")
-    parser.add_argument("--retriever", choices=["embed", "bm25"], default="embed",
-                        help="RAG retrieval: Ollama embeddings (default) or bm25 keywords (no model needed)")
+    parser.add_argument("--retriever", choices=["keywords", "embed", "bm25"], default="keywords",
+                        help="RAG retrieval: targeted keywords per variable (default, no model needed), Ollama "
+                             "embeddings, or bm25 over the question text")
     parser.add_argument("--embed-model", default="bge-m3", help="Ollama embedding model for --retriever embed")
     parser.add_argument("--embed-cache-dir", type=Path, default=EMBED_CACHE_DIR)
     parser.add_argument("--split-file", type=Path, default=DEFAULT_SPLIT_FILE)

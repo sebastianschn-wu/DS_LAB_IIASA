@@ -33,33 +33,46 @@ be corrected in `input_type_overrides.csv` (`sheet_row,input_type,note`) and are
 ## RAG + chunking for long documents (`--context rag`)
 
 By default a document over the token budget is shortened with a keyword excerpt. With `--context rag` the
-model instead gets, within the same 6,000 tokens (`rag.py`):
+model instead gets, within the same 6,000 tokens (`rag.py`, version 2):
 
-1. **The document's own summary**: Executive Summary, Summary, Overview, Resumen ejecutivo, Zusammenfassung,
-   概要 and so on. If there is none, its **introduction**.
-2. **The beginning** of the document: title, purpose and scope.
-3. **The passages most relevant to each coding question**: the document is cut into chunks of about 350 tokens,
-   and for each question (scope, CDR methods, storage, instruments, demand, targets, funding) the most similar
-   chunks are retrieved, taking turns between the questions.
+1. **The frame (about 30% of the budget)**: the document's own summary (Executive Summary, Resumen ejecutivo,
+   Zusammenfassung, 概要, …) or, if there is none, its introduction, plus the beginning (title, purpose, scope).
+   This lets the model still see what kind of document it is.
+2. **Targeted passages per coding variable**: the document is cut into chunks of about 350 tokens and searched
+   with keyword lists per variable, in several languages (`KEYWORDS` in `rag.py`):
 
-Retrieval uses Ollama embeddings (`bge-m3`, multilingual) and caches them in
-`results/source_cache/embeddings/`. `--retriever bm25` is a keyword alternative that needs no model. The
-`excerpted` column shows what happened per policy: `no` (full text), `yes` (keyword excerpt), `rag`,
-`rag+summary` or `rag+intro`.
+   | Keyword list | Variable |
+   |---|---|
+   | scope | Policy_scope |
+   | methods | Broad_method, Specific_method |
+   | storage | CO₂ storage and transport |
+   | instrument | Instrument_broad, Instrument_type |
+   | demand | Value_chain_focus, compliance market |
+   | targets | Target_type, Target_binding |
+   | funding | Funding |
 
-On the 38 long test documents, a summary section is found in 7 and an introduction in 9.
+   - Only clearly relevant chunks are sent: the score must stand out within the document (z ≥ 1).
+   - No single variable gets more than 30% of the budget.
+   - Generic words such as "credit", "procurement" or "budget" only count when the passage is also about
+     carbon or climate.
+3. **Noise filter**: tables of contents, website navigation and copyright text, and garbled PDF text are never
+   sent. A variable is skipped when the document hardly mentions its topic (no storage passages for a forest
+   plan).
+
+Version 2 came from looking at what version 1 sent (`results/baseline/rag_inspection.md`): tables of contents,
+website menus, garbled PDFs, off-topic passages, a fixed quota per question, and too little of the
+title/summary. `--retriever embed` (Ollama `bge-m3`) and `--retriever bm25` remain as alternatives.
 
 ```bash
-ollama pull bge-m3                                   # once, about 1.2 GB
 python src/scripts/baseline/baseline.script.py --prompt v2 --context rag \
     --rows src/resources/document_policies_test.csv --no-text skip
-# -> results/baseline/retrieved_v2_rag_document_policies_test.csv
+# -> results/baseline/retrieved_v2_rag2_document_policies_test.csv
 ```
 
 `--rows` codes only the policies in a CSV with a `sheet_row` column.
 `src/resources/document_policies_test.csv` holds the 74 test policies for which a document or webpage could be
-retrieved (56 policy texts, 18 webpage descriptions). `--no-text skip` skips a policy if its download fails
-this time, so it is not coded from the title.
+retrieved. The `excerpted` column shows what happened per policy: `no` (full text), `yes` (keyword excerpt),
+`rag`, `rag+summary` or `rag+intro`.
 
 ## Run (on the Mac with Ollama)
 
