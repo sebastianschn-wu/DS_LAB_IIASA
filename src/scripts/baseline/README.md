@@ -33,13 +33,13 @@ be corrected in `input_type_overrides.csv` (`sheet_row,input_type,note`) and are
 ## RAG + chunking for long documents (`--context rag`)
 
 By default a document over the token budget is shortened with a keyword excerpt. With `--context rag` the
-model instead gets, within the same 6,000 tokens (`rag.py`, version 2):
+model instead gets, within the same 6,000 tokens (`rag.py`, version 3):
 
 1. **The frame (about 30% of the budget)**: the document's own summary (Executive Summary, Resumen ejecutivo,
    Zusammenfassung, 概要, …) or, if there is none, its introduction, plus the beginning (title, purpose, scope).
    This lets the model still see what kind of document it is.
 2. **Targeted passages per coding variable**: the document is cut into chunks of about 350 tokens and searched
-   with keyword lists per variable, in several languages (`KEYWORDS` in `rag.py`):
+   with keyword lists per variable in 13 languages (`constants/keywords.json`, see below):
 
    | Keyword list | Variable |
    |---|---|
@@ -48,25 +48,49 @@ model instead gets, within the same 6,000 tokens (`rag.py`, version 2):
    | storage | CO₂ storage and transport |
    | instrument | Instrument_broad, Instrument_type |
    | demand | Value_chain_focus, compliance market |
-   | targets | Target_type, Target_binding |
-   | funding | Funding |
+   | targets | Target_type, Target_binding, Target_year/amount/unit |
+   | funding | Funding_sum, Funding_unit |
 
    - Only clearly relevant chunks are sent: the score must stand out within the document (z ≥ 1).
    - No single variable gets more than 30% of the budget.
    - Generic words such as "credit", "procurement" or "budget" only count when the passage is also about
      carbon or climate.
 3. **Noise filter**: tables of contents, website navigation and copyright text, and garbled PDF text are never
-   sent. A variable is skipped when the document hardly mentions its topic (no storage passages for a forest
-   plan).
+   sent.
+
+Every variable is searched in every document. A variable whose keywords do not occur gets no passages anyway
+(a chunk needs a positive score), so a forest plan still gets no storage passages.
 
 Version 2 came from looking at what version 1 sent (`results/baseline/rag_inspection.md`): tables of contents,
 website menus, garbled PDFs, off-topic passages, a fixed quota per question, and too little of the
 title/summary. `--retriever embed` (Ollama `bge-m3`) and `--retriever bm25` remain as alternatives.
 
+Version 3 (review of PR #5): version 2 skipped the methods, storage, demand and funding questions when their
+keywords occurred fewer than 5 times in a document. All of them serve variables that are coded for every policy
+(e.g. Funding_sum), and a funding amount mentioned once was then never retrieved, so version 3 asks every
+question. The keyword lists moved to a multilingual dictionary. The `rag2` results in `results/baseline` were
+produced with version 2 (commit `a019a9f`); version 3 writes `..._rag3_...` files and has to be run again.
+
+### Constants, parameters and keywords (`constants/`)
+
+| File | Content |
+|---|---|
+| `constants/rag_settings.py` | all RAG parameters (frame share, chunk size, `MIN_Z`, `QUERY_CAP`, BM25 `k1`/`b`, ...) with the reasoning and references behind each value |
+| `constants/retrieval_settings.py` | source retrieval and the keyword excerpt (`EXCERPT_KEYWORDS`, frozen so v1/v2 stay reproducible) |
+| `constants/keywords.json` | multilingual keyword dictionary: one entry per concept, one term list per language |
+| `constants/keywords.py` | which concepts belong to which coding variable, plus language-independent regex patterns |
+
+Languages: en, es, pt, fr, de, it, id, ru, ja, zh, ko, tr, ar (the 20 jurisdictions of the policy sheet). To add a
+synonym, add it to the concept in `keywords.json`; to add a language, add its code to `LANGUAGES` and a term list
+to every concept (`tests/test_keywords.py` checks the coverage). Terms are matched as lower-case substrings, so
+stems like `subsid` cover several word forms. A translation library is not used at run time (needs internet,
+results could change between runs, stems and abbreviations translate badly); it can be used once to suggest
+terms for a new language, which are then checked by hand.
+
 ```bash
 python src/scripts/baseline/baseline.script.py --prompt v2 --context rag \
     --rows src/resources/document_policies_test.csv --no-text skip
-# -> results/baseline/retrieved_v2_rag2_document_policies_test.csv
+# -> results/baseline/retrieved_v2_rag3_document_policies_test.csv
 ```
 
 `--rows` codes only the policies in a CSV with a `sheet_row` column.
@@ -89,6 +113,8 @@ Outputs go to `results/baseline/<input>_<prompt>[_schema]_<split>.csv`, e.g. `re
 - Runs can be stopped and continued; finished rows are skipped unless `--force`.
 - Downloaded text is cached in `results/source_cache/full_text/` (git-ignored), so the v2 run reuses exactly
   the text of the v1 run and does not download again.
+- Model: `qwen2.5:7b` for all runs, the same model as the first loop (its default `qwen2.5` is Ollama's alias
+  for `qwen2.5:7b`, same model ID `845dbda0ea48`).
 - Options: `--split test|train|all`, `--max-doc-tokens 6000`, `--model qwen2.5:7b`, `--schema` (Ollama
   returns only allowed values for closed fields; needs Ollama ≥ 0.5; treat it as its own run), `--limit N`.
 

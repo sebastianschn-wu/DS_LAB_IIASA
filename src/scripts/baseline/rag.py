@@ -22,9 +22,8 @@ Version 2 (after inspecting what version 1 sent to the model, see
 
 * Noise filter: table-of-contents chunks, website navigation / copyright
   boilerplate and garbled PDF text are never sent.
-* Questions only count when the document is about them: a question is skipped if
-  its keywords hardly occur in the document (no storage passages for a forest
-  plan, no market passages for a strategy without markets).
+* (Version 2 only: questions were skipped when their keywords hardly occurred in
+  the document. Removed in version 3, see ``active_queries``.)
 * No fixed quota per question: chunks are ranked by how unusually similar they are
   to a question within this document (z-score), only clearly relevant ones
   (z >= ``MIN_Z``) are taken, and one question fills at most ``QUERY_CAP`` of the
@@ -32,6 +31,11 @@ Version 2 (after inspecting what version 1 sent to the model, see
 * About ``FRAME_SHARE`` of the budget goes to the document's summary/introduction
   and beginning, so the model still sees what kind of document it is; budget that
   relevant passages do not fill also goes to the beginning.
+
+Version 3: every question is asked for every document (no keyword gates), and the
+keyword retriever uses the multilingual dictionary in ``constants/keywords.json``.
+All numeric settings, with the reasoning and references behind them, are in
+``constants/rag_settings.py``.
 """
 
 from __future__ import annotations
@@ -43,107 +47,45 @@ import re
 from collections import Counter
 from pathlib import Path
 
-RAG_VERSION = 2
-SUMMARY_MAX_TOKENS = 1800
-SUMMARY_MIN_TOKENS = 80
-LEAD_TOKENS = 600           # minimum for the beginning of the document
-FRAME_SHARE = 0.3           # share of the budget for summary/introduction + beginning
-MIN_Z = 1.0                 # a chunk must be this many standard deviations above the document mean
-QUERY_CAP = 0.3             # one question fills at most this share of the retrieval budget
-GATE_MIN_HITS = 5           # keyword hits a document needs before a gated question is asked
-CHUNK_TOKENS = 350
-EMBED_BATCH = 32
-EMBED_TIMEOUT = 300
-GAP = "[...]"
-
-# One query per coding question (fields of the codebook), in English.
-QUERIES = {
-    "scope": "Purpose and scope of this policy: does it set an overall framework, strategy or long-term target, "
-             "or does it create one specific instrument such as a programme, scheme, tax or regulation?",
-    "methods": "Which carbon dioxide removal methods are covered: afforestation, reforestation, forest management, "
-               "soil carbon, wetlands, biochar, bioenergy with carbon capture and storage (BECCS), direct air "
-               "capture (DACCS), enhanced weathering, ocean-based removal?",
-    "storage": "Carbon capture, transport and geological storage of CO2, storage permits, liability and monitoring.",
-    "instrument": "Instruments the policy establishes: grants, subsidies, tax credits, loans, funds, public "
-                  "procurement, carbon credits, offsets, emissions trading, standards, certification, monitoring "
-                  "reporting and verification (MRV), information or research funding.",
-    "demand": "Who buys or pays for carbon removals: compliance carbon market, emissions trading system, crediting "
-              "mechanism, government purchase of removals, contracts for difference.",
-    "targets": "Quantified targets: net zero, emissions reduction, carbon removal or sink targets, target year, "
-               "whether the target is legally binding.",
-    "funding": "Budget, funding amount, financial support and money allocated to the programme.",
-}
-
-# Keywords per coding variable (Sebastian's idea): passages where the answer for a
-# variable is likely to be. "re:" marks a regular expression. Several languages.
-#   scope      -> Policy_scope              methods  -> Broad_method, Specific_method
-#   storage    -> Specific_method (CO2)     instrument -> Instrument_broad, Instrument_type
-#   demand     -> Value_chain_focus, compliance_market_type
-#   targets    -> Target_type, Target_binding, Target_value/unit/year
-#   funding    -> Funding
-KEYWORDS = {
-    "scope": ["purpose", "objective", "aims to", "the aim", "this act", "this regulation", "this directive",
-              "this strategy", "this plan", "this programme", "this program", "shall apply", "scope",
-              "establishes", "framework", "vision", "objet", "objetivo", "objeto", "finalidad", "zweck",
-              "目的", "目标", "цель", "tujuan", "목적"],
-    "methods": ["afforestation", "reforestation", "agroforestry", "forest", "soil carbon", "soil organic",
-                "wetland", "peat", "mangrove", "seagrass", "blue carbon", "biochar", "bioenergy", "beccs",
-                "direct air capture", "daccs", "enhanced weathering", "ocean alkalin", "carbon removal",
-                "removals", "negative emission", "carbon sink", "lulucf", "land use", "sequestration",
-                "bosque", "forestación", "reforestación", "sumidero", "forêt", "boisement", "puits de carbone",
-                "floresta", "reflorestamento", "wald", "aufforstung", "senke", "森林", "植林", "吸収源", "碳汇",
-                "造林", "лес", "hutan", "산림"],
-    "storage": ["carbon capture", "ccs", "ccus", "geological storage", "storage site", "co2 storage",
-                "storage of carbon dioxide", "injection", "co2 transport", "pipeline", "storage permit", "leakage",
-                "captage", "stockage géologique", "captura de carbono", "almacenamiento geológico",
-                "armazenamento", "abscheidung", "speicherung", "貯留", "封存", "捕集", "хранени", "저장"],
-    "instrument": ["grant", "subsid", "tax credit", "tax incentive", "tax relief", "loan", "guarantee", "fund ",
-                   "procurement", "auction", "tender", "contract for difference", "contracts for difference",
-                   "certificat", "standard", "monitoring, reporting", "verification", "mrv", "permit", "licen",
-                   "obligation", "penalt", "research and development", "r&d", "innovation programme", "scheme",
-                   "subvención", "subsidio", "incentivo", "préstamo", "licitación", "förderung", "zuschuss",
-                   "darlehen", "subvention", "prêt", "補助金", "税制", "补贴", "贷款", "субсид"],
-    "demand": ["credit", "offset", "emissions trading", "trading system", "cap-and-trade", "allowance",
-               "carbon market", "compliance market", "carbon price", "carbon pricing", "carbon tax", "purchase",
-               "procure", "buyer", "demand for", "offtake", "crédit", "mercado de carbono", "bonos de carbono",
-               "marché du carbone", "emissionshandel", "zertifikat", "排出量取引", "クレジット", "碳市场",
-               "碳交易", "торгов", "배출권"],
-    "targets": ["target", "net zero", "net-zero", "carbon neutral", "climate neutral", "neutrality",
-                "reduce emissions", "emission reduction", "legally binding", "binding", "commitment", "by 2030",
-                "by 2050", "meta", "objectif", "ziel", "neutralidad", "neutralité", "目标", "目標", "цел",
-                "re:\\b20[2-6]\\d\\b", "re:\\d+(\\.\\d+)?\\s?%", "re:\\b(mt|gt|kt)\\s?co2",
-                "re:(million|billion) (tonnes|tons)"],
-    "funding": ["budget", "funding", "financ", "allocated", "appropriat", "investment", "million", "billion",
-                "presupuesto", "financiamiento", "financement", "haushalt", "fördermittel", "予算", "资金", "бюджет",
-                "re:(€|\\$|£|eur|usd|gbp|aud|cad|inr|rmb|brl)\\s?\\d",
-                "re:\\d+([.,]\\d+)?\\s?(million|billion|mio|mrd|bn|crore|lakh)"],
-}
-
-# Questions that are only asked when the document mentions their topic often enough
-# (several languages). Questions without an entry are always asked.
-QUERY_GATES = {
-    "methods": ["forest", "afforest", "reforest", "soil", "wetland", "peat", "biochar", "bioenergy", "beccs",
-                "direct air", "weathering", "mangrove", "sink", "sequest", "removal", "bosque", "forêt", "floresta",
-                "wald", "森林", "林", "碳汇", "лес", "hutan", "산림", "sumidero", "puits", "senke"],
-    "storage": ["storage", "ccs", "ccus", "carbon capture", "geological", "injection", "stockage", "captage",
-                "almacenamiento", "captura de carbono", "armazenamento", "speicherung", "abscheidung", "貯留",
-                "封存", "捕集", "хранени", "저장"],
-    "demand": ["credit", "offset", "emissions trading", "trading system", " ets", "carbon market", "procurement",
-               "purchase", "contract for difference", "contracts for difference", "crédit", "mercado de carbono",
-               "bonos de carbono", "emissionshandel", "排出量取引", "碳市场", "碳交易", "торгов", "배출권"],
-    "funding": ["fund", "budget", "million", "billion", "financ", "grant", "loan", "subsid", "eur ", "usd", "$",
-                "€", "fondos", "financiamiento", "financement", "förder", "予算", "资金", "资助", "финанс"],
-}
+from constants.keywords import CONTEXT_TERMS, KEYWORDS
+from constants.rag_settings import (
+    BM25_B,
+    BM25_K1,
+    BOILERPLATE,
+    BOILERPLATE_MIN_HITS,
+    CHUNK_TOKENS,
+    DEFAULT_EMBED_MODEL,  # noqa: F401  (used by baseline.script.py)
+    EMBED_BATCH,
+    EMBED_TIMEOUT,
+    FRAME_SHARE,
+    GAP,
+    GLYPH_NAMES_MIN_HITS,
+    HEADING_MAX_CHARS,
+    INTRO_HEADINGS,
+    INTRO_MAX_TOKENS,
+    LEAD_TOKENS,
+    MENU_MIN_LINES,
+    MENU_SHORT_LINE_SHARE,
+    MENU_SHORT_LINE_WORDS,
+    MIN_LETTER_SHARE,
+    MIN_Z,
+    NEEDS_CONTEXT,
+    QUERIES,
+    QUERY_CAP,
+    QUERY_CAP_MIN_CHUNKS,
+    RAG_VERSION,  # noqa: F401  (used as rag.RAG_VERSION by baseline.script.py)
+    SUMMARY_HEADINGS,
+    SUMMARY_MAX_TOKENS,
+    SUMMARY_MIN_TOKENS,
+    TOC_LINE_SHARE,
+    TOC_MIN_LINES,
+)
 
 _TOC_LINE = re.compile(r"(\.{4,}|…{2,}|(\s\.){3,})\s*\d*\s*$|^\s*[A-Z0-9][^.;:]{15,90}\s\d{1,3}\s*$")
 # Heading-only lines of a legal table of contents ("Sec. 11101. Authorization of appropriations.").
 _LEGAL_HEADING = re.compile(r"^\s*(sec\.|section|article|art\.|chapter|part|title|subtitle|division)\s*"
                             r"[\dIVXLC]+[\w\-—.:]*\s.{0,90}$", re.IGNORECASE)
 _GLYPH_NAMES = re.compile(r"(medial|iolated|initial|final)/", re.IGNORECASE)
-BOILERPLATE = ["cookie", "copyright", "all rights reserved", "privacy", "newsletter", "subscribe", "javascript",
-               "log in", "sign in", "skip to", "©", "terms of use", "terms and conditions", "accessibility",
-               "share this page", "back to top", "breadcrumb", "download notice", "save to my items",
-               "news stories, speeches", "nationalarchives", "open government licence"]
 
 
 def is_noise(text: str) -> bool:
@@ -151,48 +93,38 @@ def is_noise(text: str) -> bool:
     lines = [line.strip() for line in text.split("\n") if line.strip()]
     if not lines:
         return True
-    if len(_GLYPH_NAMES.findall(text)) >= 5:
+    if len(_GLYPH_NAMES.findall(text)) >= GLYPH_NAMES_MIN_HITS:
         return True
     letters = sum(ch.isalpha() for ch in text)
-    if letters < 0.5 * len(text.replace(" ", "")):
+    if letters < MIN_LETTER_SHARE * len(text.replace(" ", "")):
         return True
     toc = sum(bool(_TOC_LINE.search(line) or _LEGAL_HEADING.match(line)) for line in lines)
-    if len(lines) >= 4 and toc >= 0.5 * len(lines):
+    if len(lines) >= TOC_MIN_LINES and toc >= TOC_LINE_SHARE * len(lines):
         return True
     lowered = text.casefold()
     boilerplate = sum(lowered.count(word) for word in BOILERPLATE)
-    if boilerplate >= 3:
+    if boilerplate >= BOILERPLATE_MIN_HITS:
         return True
     # Navigation menus: mostly very short lines plus at least one boilerplate word
     # (legal text split into short lines, e.g. "(", "paragraph 3", ")", has none).
-    short = sum(len(line.split()) <= 3 for line in lines)
-    return len(lines) >= 10 and short >= 0.7 * len(lines) and boilerplate >= 1
+    short = sum(len(line.split()) <= MENU_SHORT_LINE_WORDS for line in lines)
+    return len(lines) >= MENU_MIN_LINES and short >= MENU_SHORT_LINE_SHARE * len(lines) and boilerplate >= 1
 
 
 def active_queries(text: str) -> list[str]:
-    """Question names to ask for this document (gated questions need enough keyword hits)."""
-    lowered = text.casefold()
-    names = []
-    for name in QUERIES:
-        words = QUERY_GATES.get(name)
-        if words is None or sum(lowered.count(w) for w in words) >= GATE_MIN_HITS:
-            names.append(name)
-    return names
+    """Question names to ask for this document: all of them since RAG version 3.
+
+    Version 2 skipped some questions (methods, storage, demand, funding) when their
+    keywords occurred fewer than 5 times in the document. All of these serve
+    variables the codebook codes for every policy (Funding_sum, Value_chain_focus,
+    Specific_method, ...), and a funding amount that is mentioned only once or twice
+    is exactly what we must not miss. A question the document does not address still
+    gets no passages, because chunks need a positive score and z >= MIN_Z.
+    ``text`` is kept as a parameter so the report format stays the same.
+    """
+    return list(QUERIES)
 
 
-SUMMARY_HEADINGS = [
-    "executive summary", "summary", "abstract", "overview", "synopsis", "key messages", "highlights",
-    "summary for policymakers", "résumé", "resume", "synthèse", "resumen ejecutivo", "resumen", "sumário executivo",
-    "sumário", "resumo", "zusammenfassung", "kurzfassung", "überblick", "sintesi", "riassunto", "ringkasan",
-    "ikhtisar", "краткое содержание", "резюме", "概要", "要旨", "摘要", "概述", "要点", "요약", "개요",
-]
-# Used when there is no summary: the introduction usually says what the document does.
-INTRO_HEADINGS = [
-    "introduction", "introducción", "introdução", "introduzione", "einleitung", "einführung", "pendahuluan",
-    "введение", "はじめに", "序言", "引言", "前言", "서론", "background and purpose",
-]
-INTRO_MAX_TOKENS = 1500
-HEADING_MAX_CHARS = 120
 _CJK = re.compile(r"[぀-ヿ㐀-鿿가-힯]")
 _WORD = re.compile(r"[^\W\d_]{2,}", re.UNICODE)
 
@@ -300,11 +232,18 @@ def _tokens(text: str) -> list[str]:
 
 
 class BM25Retriever:
-    """Keyword retrieval (no model needed)."""
+    """Okapi BM25 keyword retrieval (no model needed), alternative to the default retriever.
+
+    Standard probabilistic ranking function of information retrieval (Robertson &
+    Zaragoza 2009; Manning et al. 2008, section 11.4.3), with the "+1" idf of Lucene
+    so scores stay positive. ``k1`` sets how fast repeated terms saturate, ``b`` how
+    strongly long chunks are penalised; see ``BM25_K1`` / ``BM25_B`` in
+    ``constants/rag_settings.py`` for the chosen values and why.
+    """
 
     name = "bm25"
 
-    def __init__(self, k1: float = 1.5, b: float = 0.75):
+    def __init__(self, k1: float = BM25_K1, b: float = BM25_B):
         self.k1, self.b = k1, b
 
     def rank(self, chunks: list[str], queries: list[str]) -> list[list[int]]:
@@ -335,15 +274,6 @@ class BM25Retriever:
         return all_scores
 
 
-# Climate/carbon context: in long laws about many topics (e.g. the 700,000-token US
-# infrastructure act) generic words like "credit" or "procurement" also occur in
-# unrelated sections, so for these variables a passage must also be about carbon.
-CONTEXT_TERMS = ["carbon", "co2", "co₂", "greenhouse", "ghg", "emission", "climate", "removal", "sink", "sequest",
-                 "forest", "carbono", "carbone", "kohlenstoff", "treibhaus", "emisi", "émission", "炭素", "碳",
-                 "温室", "排出", "углерод", "выброс", "karbon", "탄소", "온실"]
-NEEDS_CONTEXT = {"instrument", "demand", "funding", "targets"}
-
-
 def _keyword_matchers(words: list[str]):
     compiled = []
     for word in words:
@@ -355,11 +285,13 @@ def _keyword_matchers(words: list[str]):
 
 
 class KeywordRetriever:
-    """Targeted keyword search per variable (no model needed).
+    """Targeted keyword search per variable (default retriever, no model needed).
 
     A chunk's score for a variable is the sum of log(1 + hits) over that
     variable's keywords, so a passage that mentions several different keywords
-    beats one that repeats a single word.
+    beats one that repeats a single word (the same sublinear term-frequency idea as
+    BM25's saturation). Keywords come from the multilingual dictionary in
+    ``constants/keywords.json``.
     """
 
     name = "keywords"
@@ -468,7 +400,7 @@ def build_context(text: str, budget: int, estimate, retriever) -> tuple[str, dic
     summary = find_summary(text, estimate, min(SUMMARY_MAX_TOKENS, frame_budget))
     section = "summary"
     if not summary:
-        summary = find_summary(text, estimate, min(1200, frame_budget), INTRO_HEADINGS)
+        summary = find_summary(text, estimate, min(INTRO_MAX_TOKENS, frame_budget), INTRO_HEADINGS)
         section = "introduction"
     used = estimate(summary) if summary else 0
     by_source = {section: used} if summary else {}
@@ -505,7 +437,7 @@ def build_context(text: str, budget: int, estimate, retriever) -> tuple[str, dic
                 if z >= MIN_Z and row[index] > 0 and not noise[index]:
                     candidates.append((z, index, name))
     candidates.sort(key=lambda item: (-item[0], item[1]))
-    cap = max(QUERY_CAP * (budget - used), CHUNK_TOKENS * 1.5)  # at least one chunk per question
+    cap = max(QUERY_CAP * (budget - used), CHUNK_TOKENS * QUERY_CAP_MIN_CHUNKS)
     per_question: dict[str, int] = {}
     for z, index, name in candidates:
         if index in chosen:

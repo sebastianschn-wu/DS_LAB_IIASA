@@ -94,11 +94,29 @@ def test_noise_filter():
     assert not rag.is_noise(text)
 
 
-def test_questions_are_gated_by_topic():
+def test_every_question_is_asked():
     forest_plan = "This plan restores forest and peat land and increases the carbon sink. " * 5
-    assert "storage" not in rag.active_queries(forest_plan)
-    assert "methods" in rag.active_queries(forest_plan)
-    assert "scope" in rag.active_queries(forest_plan)
+    assert rag.active_queries(forest_plan) == list(rag.QUERIES)
+
+
+def test_question_without_matching_passages_gets_no_budget():
+    # No storage keywords anywhere: asking the storage question must not add passages.
+    document = "\n".join(["FOREST PLAN"] + [FILLER * 4 for _ in range(60)]
+                         + ["Landholders restore forest and peat land to enlarge the carbon sink. " * 3]
+                         + [FILLER * 4 for _ in range(60)])
+    _, report = rag.build_context(document, 1500, estimate, rag.KeywordRetriever())
+    assert "storage" not in report["tokens_by_source"]
+    assert "methods" in report["tokens_by_source"]
+
+
+def test_funding_mentioned_once_is_retrieved():
+    # Version 2 skipped the funding question below 5 keyword hits; a single amount must be found.
+    amount = "The programme receives EUR 40 million for climate projects."
+    document = "\n".join(["NATIONAL STRATEGY"] + [FILLER * 4 for _ in range(60)] + [amount]
+                         + [FILLER * 4 for _ in range(60)])
+    context, report = rag.build_context(document, 1500, estimate, rag.KeywordRetriever())
+    assert amount in context
+    assert "funding" in report["tokens_by_source"]
 
 
 def test_noise_is_never_sent():

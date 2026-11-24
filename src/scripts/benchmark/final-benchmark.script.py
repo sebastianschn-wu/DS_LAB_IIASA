@@ -22,8 +22,9 @@ What it reports (everything we agreed on for the report):
 Usage:
     python src/scripts/benchmark/final-benchmark.script.py \\
         --run "v1=results/baseline/retrieved_v1_test.csv" \\
-        --run "v2=results/baseline/retrieved_v2_test.csv" \\
-        --run "v2 + RAG=results/baseline/retrieved_v2_rag_document_policies_test.csv"
+        --run "v2 + rules=results/baseline/retrieved_v2_test_rules.csv" \\
+        --run "v2 + RAG1 + rules=results/baseline/retrieved_v2_rag_document_policies_test_rules.csv" \\
+        --run "v2 + RAG2 + rules=results/baseline/retrieved_v2_rag2_document_policies_test_rules.csv"
 
 Outputs (results/benchmark/final/): final_benchmark.md, field_metrics.csv, paired.csv,
 per_policy.csv, label_metrics.csv, final_core_fields.png

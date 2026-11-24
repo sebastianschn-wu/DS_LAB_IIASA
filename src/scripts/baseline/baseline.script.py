@@ -65,6 +65,10 @@ import rag  # noqa: E402
 import retrieval  # noqa: E402
 from prompt_versions import PROMPT_V1, PROMPT_VERSIONS, instructions_for, user_prompt_header  # noqa: E402
 
+# Same model as the first loop and the few-shot runs: the first loop's default
+# "qwen2.5" is Ollama's alias for qwen2.5:7b (same model ID 845dbda0ea48, 7.6B
+# parameters, Q4_K_M), so results are comparable. Written out here so the output
+# CSVs name the size explicitly.
 DEFAULT_MODEL = "qwen2.5:7b"
 INPUT_RETRIEVED = "retrieved"
 INPUT_SUMMARY_MODE = "summary"
@@ -321,7 +325,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--retriever", choices=["keywords", "embed", "bm25"], default="keywords",
                         help="RAG retrieval: targeted keywords per variable (default, no model needed), Ollama "
                              "embeddings, or bm25 over the question text")
-    parser.add_argument("--embed-model", default="bge-m3", help="Ollama embedding model for --retriever embed")
+    parser.add_argument("--embed-model", default=rag.DEFAULT_EMBED_MODEL, help="Ollama embedding model for --retriever embed")
     parser.add_argument("--embed-cache-dir", type=Path, default=EMBED_CACHE_DIR)
     parser.add_argument("--split-file", type=Path, default=DEFAULT_SPLIT_FILE)
     parser.add_argument("--no-text", choices=["title", "skip"], default="title",

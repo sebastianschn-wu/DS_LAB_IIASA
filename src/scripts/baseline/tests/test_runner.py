@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+import rag
 import retrieval
 
 BASELINE = Path(__file__).resolve().parents[1] / "baseline.script.py"
@@ -144,4 +145,4 @@ def test_rag_context_and_rows_file(setup, tmp_path):
 def test_default_output_name(setup):
     runner, _, _ = setup
     args = runner.parse_args(["--prompt", "v2", "--context", "rag", "--rows", "x/document_policies_test.csv"])
-    assert runner.default_output(args).name == "retrieved_v2_rag2_document_policies_test.csv"
+    assert runner.default_output(args).name == f"retrieved_v2_rag{rag.RAG_VERSION}_document_policies_test.csv"
