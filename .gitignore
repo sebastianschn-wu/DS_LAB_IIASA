@@ -6,3 +6,12 @@ results/source_cache
 __pycache__/
 *.pyc
 .venv/
+
+# Intermediate results (kept locally for the report, not needed for the benchmark; PR #5 review)
+results/baseline/retrieved_v2_test.csv
+results/baseline/retrieved_v2_rag_document_policies_test.csv
+results/baseline/retrieved_v2_rag2_document_policies_test.csv
+results/baseline/evaluation/*.csv
+results/prompt-optimization/comparison/*.csv
+results/prompt-optimization/error_rows.csv
+results/prompt-optimization/error_review.xlsx
