@@ -66,7 +66,34 @@ def normalise(field: str, value) -> object:
 
 
 def exact_binomial_two_sided(b: int, c: int) -> float:
-    """Exact McNemar p-value for b and c discordant pairs (no SciPy needed)."""
+    """Exact McNemar p-value for b and c discordant pairs (no SciPy needed).
+
+    Why McNemar's test fits this comparison: every run codes the same policies
+    with the same model, temperature and seed, so the predictions are paired.
+    Policies that both runs get right, or both get wrong, say nothing about
+    which run is better; only the discordant pairs carry information about the
+    difference, and that is exactly what this test conditions on
+    (McNemar 1947).
+
+    Dietterich (1998) compares five tests for deciding whether one classifier
+    outperforms another and finds McNemar's test the only one with an
+    acceptable Type I error rate when each algorithm can be run only once --
+    which is our situation. A run here is a full pass of a local LLM over the
+    test split, so repeated resampling or 5x2 cross-validation is not
+    affordable.
+
+    The exact binomial form is used rather than the chi-square approximation
+    because b + c is small for several fields (single digits), where the
+    approximation is unreliable.
+
+    References:
+        McNemar, Q. (1947). Note on the sampling error of the difference
+            between correlated proportions or percentages. Psychometrika,
+            12(2), 153-157. https://doi.org/10.1007/BF02295996
+        Dietterich, T. G. (1998). Approximate statistical tests for comparing
+            supervised classification learning algorithms. Neural Computation,
+            10(7), 1895-1923. https://doi.org/10.1162/089976698300017197
+    """
     n = b + c
     if n == 0:
         return 1.0
